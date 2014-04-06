@@ -6,9 +6,38 @@
   <packaging>jar</packaging>
   <name>slickqa-java-client</name>
   <version>1.0.0</version>
+  <description>Java client api for the slick test management tool.</description>
+  <url>http://github.com/slickqa/slickqa-java-client</url>
+  <issueManagement>
+    <system>Github</system>
+    <url>http://github.com/slickqa/slickqa-java-client/issues</url>
+  </issueManagement>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>jasoncorbett</id>
+      <name>Jason Corbett</name>
+      <email>jasoncorbett@gmail.com</email>
+      <url>http://jcorbett.org</url>
+      <roles>
+          <role>architect</role>
+          <role>developer</role>
+      </roles>
+      <timezone>America/Denver</timezone>
+    </developer>
+  </developers>
 
   <scm>
     <connection>scm:git:https://github.com/slickqa/slickqa-java-client.git</connection>
+    <developerConnection>scm:git:https://github.com/slickqa/slickqa-java-client.git</developerConnection>
+    <url>http://github.com/slickqa/slickqa-java-client</url>
   </scm>
 
   <build>
