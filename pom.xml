@@ -7,6 +7,10 @@
   <name>slickqa-java-client</name>
   <version>1.0.0</version>
 
+  <scm>
+    <connection>scm:git:https://github.com/slickqa/slickqa-java-client.git</connection>
+  </scm>
+
   <build>
     <plugins>
       <plugin>
