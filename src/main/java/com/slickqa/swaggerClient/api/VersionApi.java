@@ -2,7 +2,7 @@ package com.slickqa.swaggerClient.api;
 
 import com.wordnik.client.common.ApiException;
 import com.wordnik.client.common.ApiInvoker;
-import com.slickqa.swaggerClient.models.ProductVersion;
+import com.slickqa.client.model.ProductVersion;
 import java.util.*;
 
 public class VersionApi {

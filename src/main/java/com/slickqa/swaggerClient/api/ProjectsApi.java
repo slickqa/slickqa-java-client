@@ -2,10 +2,10 @@ package com.slickqa.swaggerClient.api;
 
 import com.wordnik.client.common.ApiException;
 import com.wordnik.client.common.ApiInvoker;
-import com.slickqa.swaggerClient.models.Component;
-import com.slickqa.swaggerClient.models.Build;
-import com.slickqa.swaggerClient.models.Release;
-import com.slickqa.swaggerClient.models.Project;
+import com.slickqa.client.model.Component;
+import com.slickqa.client.model.Build;
+import com.slickqa.client.model.Release;
+import com.slickqa.client.model.Project;
 import java.util.*;
 
 public class ProjectsApi {

@@ -1,19 +1,14 @@
 package com.wordnik.client.common;
 
-import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import com.slickqa.client.impl.JsonUtil;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.LoggingFilter;
 import com.sun.jersey.api.client.WebResource.Builder;
 
 import javax.ws.rs.core.Response.Status.Family;
-import javax.ws.rs.core.MediaType;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -47,8 +42,8 @@ public class ApiInvoker {
   public static Object deserialize(String json, String containerType, Class cls) throws ApiException {
     try{
       if("List".equals(containerType) || "Array".equals(containerType)) {
-        JavaType typeInfo = JsonUtil.getJsonMapper().getTypeFactory().constructCollectionType(List.class, cls);
-        List response = (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
+        JavaType typeInfo = JsonUtil.getObjectMapper().getTypeFactory().constructCollectionType(List.class, cls);
+        List response = (List<?>) JsonUtil.getObjectMapper().readValue(json, typeInfo);
         return response;
       }
       else if(String.class.equals(cls)) {
@@ -58,7 +53,7 @@ public class ApiInvoker {
           return json;
       }
       else {
-        return JsonUtil.getJsonMapper().readValue(json, cls);
+        return JsonUtil.getObjectMapper().readValue(json, cls);
       }
     }
     catch (IOException e) {
@@ -69,7 +64,7 @@ public class ApiInvoker {
   public static String serialize(Object obj) throws ApiException {
     try {
       if (obj != null)
-        return JsonUtil.getJsonMapper().writeValueAsString(obj);
+        return JsonUtil.getObjectMapper().writeValueAsString(obj);
       else
         return null;
     }

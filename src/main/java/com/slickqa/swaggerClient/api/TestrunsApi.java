@@ -2,7 +2,7 @@ package com.slickqa.swaggerClient.api;
 
 import com.wordnik.client.common.ApiException;
 import com.wordnik.client.common.ApiInvoker;
-import com.slickqa.swaggerClient.models.Testrun;
+import com.slickqa.client.model.Testrun;
 import java.util.*;
 
 public class TestrunsApi {

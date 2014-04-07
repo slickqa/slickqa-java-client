@@ -2,8 +2,8 @@ package com.slickqa.swaggerClient.api;
 
 import com.wordnik.client.common.ApiException;
 import com.wordnik.client.common.ApiInvoker;
-import com.slickqa.swaggerClient.models.LogEntry;
-import com.slickqa.swaggerClient.models.Result;
+import com.slickqa.client.model.LogEntry;
+import com.slickqa.client.model.Result;
 import java.util.*;
 
 public class ResultsApi {

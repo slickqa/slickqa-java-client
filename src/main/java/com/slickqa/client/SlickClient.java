@@ -1,8 +1,9 @@
 package com.slickqa.client;
 
-import com.slickqa.swaggerClient.models.Project;
+import com.slickqa.client.apiparts.ProjectApi;
+import com.slickqa.client.apiparts.QueryApi;
+import com.slickqa.client.model.Project;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,6 +16,8 @@ public interface SlickClient
 {
     public QueryApi<Project> projects();
     public QueryApi<Project> projects(Map<String, String> properties);
+    public QueryApi<Project> projects(String query);
+    public QueryApi<Project> projects(String query, String orderBy);
     public QueryApi<Project> projects(String query, String orderBy, Integer limit, Integer skip);
     public ProjectApi project(Project project);
     public ProjectApi project(String idOrName);
