@@ -1,7 +1,7 @@
 package com.slickqa.client;
 
 import com.slickqa.client.apiparts.ProjectApi;
-import com.slickqa.client.apiparts.QueryApi;
+import com.slickqa.client.apiparts.QueryAndCreateApi;
 import com.slickqa.client.model.Project;
 
 import java.util.Map;
@@ -44,19 +44,19 @@ public interface SlickClient
     /**
      * No filtering, retrieve all projects.
      */
-    public QueryApi<Project> projects();
+    public QueryAndCreateApi<Project> projects();
 
     /**
      * Filter based on properties of a project.  Dotted sub properties are allowed.
      * @param properties A map of properties and their values to filter the projects by.
      */
-    public QueryApi<Project> projects(Map<String, String> properties);
+    public QueryAndCreateApi<Project> projects(Map<String, String> properties);
 
     /**
      * Filter the results based of a standard slick query.
      * @param query The query to perform, using slick's generic query language.
      */
-    public QueryApi<Project> projects(String query);
+    public QueryAndCreateApi<Project> projects(String query);
 
     /**
      * Filter the results based of a standard slick query, setting a property to order the results by.
@@ -64,7 +64,7 @@ public interface SlickClient
      * @param query The query to perform, using slick's generic query language.
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
      */
-    public QueryApi<Project> projects(String query, String orderBy);
+    public QueryAndCreateApi<Project> projects(String query, String orderBy);
 
     /**
      * Filter the results based of a standard slick query, setting a property to order the results by.  Also you can
@@ -75,19 +75,10 @@ public interface SlickClient
      * @param limit The maximum number of results to return, or null for no limit.
      * @param skip The number of results to skip (maintaining order), or null for no skip.
      */
-    public QueryApi<Project> projects(String query, String orderBy, Integer limit, Integer skip);
+    public QueryAndCreateApi<Project> projects(String query, String orderBy, Integer limit, Integer skip);
 
     /**
-     * Perform operations against a specific project.  You must use this form for create, getOrCreate, or update
-     * operations of a project.
-     *
-     * @param project The project to perform operations on.
-     */
-    public ProjectApi project(Project project);
-
-    /**
-     * Perform operations against a specific project.  You can use this form if you are using get or delete operations.
-     * This form allows you to specify the name or the id of the project to get or delete.
+     * Perform operations against a specific project.  You only need to enter the ID (or name) here.
      *
      * @param idOrName The id (string representation of the BSON Object Id) or the name of the project.
      */

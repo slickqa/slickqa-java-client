@@ -153,6 +153,12 @@
 
     <!-- test dependencies -->
     <dependency>
+      <groupId>com.googlecode.jmockit</groupId>
+      <artifactId>jmockit</artifactId>
+      <version>${jmockit-version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit-version}</version>
@@ -163,10 +169,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jersey-version>2.7</jersey-version>
-    <jackson-version>2.1.4</jackson-version>
-    <junit-version>4.8.1</junit-version>
-    <maven-plugin-version>1.0.0</maven-plugin-version>
-    <junit-version>4.8.1</junit-version>
+    <jackson-version>2.3.2</jackson-version>
+    <junit-version>4.11</junit-version>
+    <jmockit-version>1.7</jmockit-version>
   </properties>
 </project>
 
