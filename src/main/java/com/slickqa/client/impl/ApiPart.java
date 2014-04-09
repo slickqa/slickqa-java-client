@@ -14,19 +14,22 @@ import java.util.List;
  */
 public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi<T>, ParentApiPart {
 
+    private ParentApiPart parent;
+
     public ApiPart(Class<T> type, ParentApiPart parent) {
+        this.parent = parent;
     }
 
     //------------------------------ ParentApiPart -------------------------------------
 
     @Override
     public WebTarget getWebTarget() {
-        return null;
+        return getParent().getWebTarget();
     }
 
     @Override
     public ParentApiPart getParent() {
-        return null;
+        return parent;
     }
 
     @Override
