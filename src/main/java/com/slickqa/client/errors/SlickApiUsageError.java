@@ -5,4 +5,7 @@ package com.slickqa.client.errors;
  * Created by jcorbett on 4/7/14.
  */
 public class SlickApiUsageError extends SlickError {
+    public SlickApiUsageError(String message) {
+        super(message);
+    }
 }

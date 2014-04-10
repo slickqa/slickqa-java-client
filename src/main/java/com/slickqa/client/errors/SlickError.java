@@ -14,4 +14,7 @@ package com.slickqa.client.errors;
  * Created by jcorbett on 4/7/14.
  */
 public class SlickError extends Exception {
+    public SlickError(String message) {
+        super(message);
+    }
 }
