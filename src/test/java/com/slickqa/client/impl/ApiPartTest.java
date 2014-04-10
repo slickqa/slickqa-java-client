@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 /**
  * Created by jcorbett on 4/8/14.
  */
-public class ApiPartTests {
+public class ApiPartTest {
 
     @Injectable
     ParentApiPart parent;

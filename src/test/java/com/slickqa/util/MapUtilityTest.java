@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by jcorbett on 4/6/14.
  */
-public class MapUtilityTests {
+public class MapUtilityTest {
     @Test
     public void parametersMapWithoutArguments()
     {
