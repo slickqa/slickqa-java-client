@@ -1,11 +1,14 @@
 package com.slickqa.client.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.slickqa.client.SlickClient;
 import com.slickqa.client.apiparts.QueryAndCreateApi;
 import com.slickqa.client.apiparts.RetrieveUpdateDeleteApi;
+import com.slickqa.client.errors.SlickCommunicationError;
 import com.slickqa.client.errors.SlickError;
 
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -16,8 +19,12 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
 
     private ParentApiPart parent;
 
-    public ApiPart(Class<T> type, ParentApiPart parent) {
+    public ApiPart(Class<T> type, ParentApiPart parent, ObjectMapper mapper) {
         this.parent = parent;
+    }
+
+    public ApiPart(Class<T> type, ParentApiPart parent) {
+        this(type, parent, JsonUtil.getObjectMapper());
     }
 
     //------------------------------ ParentApiPart -------------------------------------
@@ -34,7 +41,7 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
 
     @Override
     public SlickClient getSlickClient() {
-        return null;
+        return getParent().getSlickClient();
     }
 
     //------------------------------ RetrieveUpdateDeleteApi -------------------------------------
@@ -51,7 +58,20 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
 
     @Override
     public void delete() throws SlickError {
-
+        WebTarget target = getParent().getWebTarget();
+        Response lastResponse = null;
+        for(int i = 0; i < 3; i++) {
+            lastResponse = target.request().delete();
+            if (lastResponse.getStatus() == 200)
+                return;
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                // do nothing, we really don't care
+            }
+        }
+        // if we haven't gotten a good response code
+        throw new SlickCommunicationError(target.getUri().toString(), lastResponse);
     }
 
     //------------------------------ QueryAndCreateApi -------------------------------------
