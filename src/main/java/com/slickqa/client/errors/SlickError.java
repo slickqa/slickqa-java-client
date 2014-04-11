@@ -17,4 +17,8 @@ public class SlickError extends Exception {
     public SlickError(String message) {
         super(message);
     }
+
+    public SlickError(String message, Exception inner) {
+        super(message, inner);
+    }
 }

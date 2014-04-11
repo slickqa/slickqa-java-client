@@ -1,5 +1,7 @@
 package com.slickqa.client.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.slickqa.client.SlickClient;
 import com.slickqa.client.apiparts.QueryAndCreateApi;
@@ -7,8 +9,12 @@ import com.slickqa.client.apiparts.RetrieveUpdateDeleteApi;
 import com.slickqa.client.errors.SlickCommunicationError;
 import com.slickqa.client.errors.SlickError;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -18,15 +24,51 @@ import java.util.List;
 public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi<T>, ParentApiPart {
 
     private ParentApiPart parent;
+    private Class<T> type;
+    private ObjectMapper mapper;
 
     public ApiPart(Class<T> type, ParentApiPart parent, ObjectMapper mapper) {
         this.parent = parent;
+        this.mapper = mapper;
+        this.type = type;
     }
 
     public ApiPart(Class<T> type, ParentApiPart parent) {
         this(type, parent, JsonUtil.getObjectMapper());
     }
 
+
+    private <V> V makeRequest(String method, TypeReference<V> type, V body) throws SlickError {
+        WebTarget target = getParent().getWebTarget();
+        Response lastResponse = null;
+        Exception lastException = null;
+        for(int i = 0; i < 3; i++) {
+            if(body != null) {
+                try {
+                    lastResponse = target.request().method(method, Entity.entity(mapper.writeValueAsString(body), MediaType.APPLICATION_JSON)); //, mapper.writeValueAsString(body));
+                } catch (JsonProcessingException e) {
+                    throw new SlickError(MessageFormat.format("Problem in JSON serialization of body for request to: {}", target.getUri().toString()), e);
+                }
+            } else {
+                lastResponse = target.request().method(method);
+            }
+            if (lastResponse.getStatus() == 200) {
+                if (type != null) {
+                    try {
+                        return mapper.readValue(lastResponse.readEntity(String.class), type);
+                    } catch (IOException e) {
+                        lastException = e;
+                    }
+                } else {
+                    return null;
+                }
+            }
+        }
+        if(lastException != null)
+            throw new SlickCommunicationError(target.getUri().toString(), lastResponse, lastException);
+        else
+            throw new SlickCommunicationError(target.getUri().toString(), lastResponse);
+    }
     //------------------------------ ParentApiPart -------------------------------------
 
     @Override
@@ -48,7 +90,25 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
 
     @Override
     public T get() throws SlickError {
-        return null;
+/*        WebTarget target = getParent().getWebTarget();
+        Response lastResponse = null;
+        Exception lastException = null;
+        for(int i = 0; i < 3; i++) {
+            lastResponse = target.request().get();
+            if (lastResponse.getStatus() == 200) {
+                try {
+                    return mapper.readValue(lastResponse.readEntity(String.class), type);
+                } catch (IOException e) {
+                    lastException = e;
+                }
+            }
+        }
+        if(lastException != null)
+            throw new SlickCommunicationError(target.getUri().toString(), lastResponse, lastException);
+        else
+            throw new SlickCommunicationError(target.getUri().toString(), lastResponse);*/
+        return makeRequest("GET", new TypeReference<T>() { }, null);
+
     }
 
     @Override

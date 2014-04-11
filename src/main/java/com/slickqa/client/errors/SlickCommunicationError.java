@@ -14,6 +14,11 @@ public class SlickCommunicationError extends SlickError {
         this.response = response;
     }
 
+    public SlickCommunicationError(String url, Response response, Exception inner) {
+        super(MessageFormat.format("Error communicating with slick at url '{0}', response: '{1}'", url, response), inner);
+        this.response = response;
+    }
+
     public Response getResponse() {
         return response;
     }

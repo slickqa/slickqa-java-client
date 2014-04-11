@@ -1,9 +1,13 @@
 package com.slickqa.client.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.slickqa.client.SlickClient;
 import com.slickqa.client.errors.SlickCommunicationError;
 import mockit.*;
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.ws.rs.client.Invocation;
@@ -37,9 +41,17 @@ public class ApiPartTest {
     @Injectable
     Response response;
 
+    String jsonResponseString = "{}";
+
+    ApiPart<Object> apiPart;
+
+    @Before
+    public void setUp() {
+        apiPart = new ApiPart<>(Object.class, parent, mapper);
+    }
+
     @Test
     public void getParentTest() {
-        ApiPart<Object> apiPart = new ApiPart<>(Object.class, parent);
         ParentApiPart retval = apiPart.getParent();
         assertNotNull("The parent of the apiPart should be the one injected, not null.", retval);
         assertSame("The parent of the apiPart should be the one injected.", retval, parent);
@@ -47,7 +59,6 @@ public class ApiPartTest {
 
     @Test
     public void getWebTargetPassThroughTest() {
-        ApiPart<Object> apiPart = new ApiPart<>(Object.class, parent);
         new NonStrictExpectations() {{
             parent.getWebTarget();
             result = webTarget;
@@ -59,7 +70,6 @@ public class ApiPartTest {
 
     @Test
     public void getSlickClientPassThroughTest() {
-        ApiPart<Object> apiPart = new ApiPart<>(Object.class, parent);
         new NonStrictExpectations() {{
             parent.getSlickClient();
             result = client;
@@ -71,7 +81,6 @@ public class ApiPartTest {
 
     @Test
     public void deleteNormalWorkflow() throws Exception {
-        ApiPart<Object> apiPart = new ApiPart<>(Object.class, parent, mapper);
         new Expectations() {{
             parent.getWebTarget();
             result = webTarget;
@@ -92,7 +101,6 @@ public class ApiPartTest {
 
     @Test(expected = SlickCommunicationError.class)
     public void deleteErrorReturned() throws Exception {
-        ApiPart<Object> apiPart = new ApiPart<>(Object.class, parent, mapper);
         new Expectations() {{
             parent.getWebTarget();
             result = webTarget;
@@ -115,6 +123,92 @@ public class ApiPartTest {
         }};
 
         apiPart.delete();
+
+    }
+
+    @Test
+    public void getObjectNormalWorkflow() throws Exception {
+        final Object expectedResult = new Object();
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+
+            webTarget.request();
+            result = builder;
+
+            builder.method("GET");
+            result = response;
+
+            response.getStatus();
+            result = 200;
+
+            response.readEntity(String.class);
+            result = jsonResponseString;
+
+            mapper.readValue(jsonResponseString, withAny(new TypeReference<Object>() { }));
+            result = expectedResult;
+        }};
+        Object retval = apiPart.get();
+        assertSame("Instance should be the same instance that is returned from the mapper.", retval, expectedResult);
+    }
+
+    @Test(expected = SlickCommunicationError.class)
+    public void getObjectBadResponseCode() throws Exception {
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+        }};
+
+        // retry up to 3 times when we get an error
+        new Expectations(3) {{
+            webTarget.request();
+            result = builder;
+
+            builder.method("GET");
+            result = response;
+
+            response.getStatus();
+            result = 500;
+        }};
+        new Expectations() {{
+            webTarget.getUri();
+            result = new URI("http://foo/bar");
+        }};
+
+        apiPart.get();
+    }
+
+    @Test(expected = SlickCommunicationError.class)
+    public void getObjectMapperError() throws Exception {
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+        }};
+
+        // retry up to 3 times when we get an error
+        new Expectations(3) {{
+            webTarget.request();
+            result = builder;
+
+            builder.method("GET");
+            result = response;
+
+            response.getStatus();
+            result = 200;
+
+            response.readEntity(String.class);
+            result = jsonResponseString;
+
+            mapper.readValue(jsonResponseString, withAny(new TypeReference<Object>() { }));
+            //mapper.readValue(jsonResponseString, withAny(TypeReference.class));
+            result = new JsonMappingException("");
+        }};
+        new Expectations() {{
+            webTarget.getUri();
+            result = new URI("http://foo/bar");
+        }};
+
+        apiPart.get();
 
     }
 
