@@ -27,27 +27,27 @@
       <email>jasoncorbett@gmail.com</email>
       <url>http://jcorbett.org</url>
       <roles>
-          <role>architect</role>
-          <role>developer</role>
+        <role>architect</role>
+        <role>developer</role>
       </roles>
       <timezone>America/Denver</timezone>
     </developer>
   </developers>
 
   <distributionManagement>
-      <snapshotRepository>
-          <id>SonatypeSnapshots</id>
-          <name>Sonatype OSS Snapshot Repository</name>
-          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-          <uniqueVersion>true</uniqueVersion>
-      </snapshotRepository>
-      <repository>
-          <id>SonatypeReleases</id>
-          <name>Sonatype OSS Release Repository</name>
-          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-          <uniqueVersion>false</uniqueVersion>
-      </repository>
-      <downloadUrl>https://oss.sonatype.org/content/groups/public</downloadUrl>
+    <snapshotRepository>
+      <id>SonatypeSnapshots</id>
+      <name>Sonatype OSS Snapshot Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <uniqueVersion>true</uniqueVersion>
+    </snapshotRepository>
+    <repository>
+      <id>SonatypeReleases</id>
+      <name>Sonatype OSS Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+    <downloadUrl>https://oss.sonatype.org/content/groups/public</downloadUrl>
   </distributionManagement>
 
   <scm>
