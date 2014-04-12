@@ -120,7 +120,10 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
     }
 
     @Override
-    public T findOrCreate(T item) {
-        return null;
+    public T findOrCreate(T item) throws SlickError {
+        try {
+            return get();
+        } catch (SlickError e) {}
+        return create(item);
     }
 }

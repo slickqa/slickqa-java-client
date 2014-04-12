@@ -37,5 +37,5 @@ public interface QueryAndCreateApi<T> {
      * @return The found or created item (with the id filled in by the server)
      * @throws SlickError if an invalid usage occurs or if the server returns an error.
      */
-    public T findOrCreate(T item);
+    public T findOrCreate(T item) throws SlickError;
 }
