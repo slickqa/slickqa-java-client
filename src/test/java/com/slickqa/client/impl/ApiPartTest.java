@@ -2,6 +2,7 @@ package com.slickqa.client.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.slickqa.client.SlickClient;
@@ -9,17 +10,20 @@ import com.slickqa.client.errors.SlickCommunicationError;
 import mockit.*;
 import org.junit.Before;
 import org.junit.Test;
-
+import javax.swing.text.html.parser.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 /**
- * Created by jcorbett on 4/8/14.
+ * Tests for com.slickqa.client.impl.ApiPart
  */
 public class ApiPartTest {
 
@@ -45,8 +49,19 @@ public class ApiPartTest {
 
     ApiPart<Object> apiPart;
 
+    JavaType objectType;
+
     @Before
     public void setUp() {
+        final ObjectMapper realMapper = JsonUtil.getObjectMapper();
+        objectType = realMapper.constructType(Object.class);
+        new NonStrictExpectations() {{
+            mapper.constructType(Object.class);
+            result = realMapper.constructType(Object.class);
+
+            mapper.getTypeFactory();
+            result = realMapper.getTypeFactory();
+        }};
         apiPart = new ApiPart<>(Object.class, parent, mapper);
     }
 
@@ -58,7 +73,7 @@ public class ApiPartTest {
     }
 
     @Test
-    public void getWebTargetPassThroughTest() {
+    public void getWebTargetPassThroughTest() throws Exception {
         new NonStrictExpectations() {{
             parent.getWebTarget();
             result = webTarget;
@@ -88,7 +103,7 @@ public class ApiPartTest {
             webTarget.request();
             result = builder;
 
-            builder.delete();
+            builder.method("DELETE");
             result = response;
 
             response.getStatus();
@@ -111,7 +126,7 @@ public class ApiPartTest {
             webTarget.request();
             result = builder;
 
-            builder.delete();
+            builder.method("DELETE");
             result = response;
 
             response.getStatus();
@@ -145,7 +160,7 @@ public class ApiPartTest {
             response.readEntity(String.class);
             result = jsonResponseString;
 
-            mapper.readValue(jsonResponseString, withAny(new TypeReference<Object>() { }));
+            mapper.readValue(jsonResponseString, withAny(objectType));
             result = expectedResult;
         }};
         Object retval = apiPart.get();
@@ -199,7 +214,7 @@ public class ApiPartTest {
             response.readEntity(String.class);
             result = jsonResponseString;
 
-            mapper.readValue(jsonResponseString, withAny(new TypeReference<Object>() { }));
+            mapper.readValue(jsonResponseString, withAny(objectType));
             //mapper.readValue(jsonResponseString, withAny(TypeReference.class));
             result = new JsonMappingException("");
         }};
@@ -212,5 +227,289 @@ public class ApiPartTest {
 
     }
 
+    @Test
+    public void updateObjectNormalWorkflow() throws Exception {
+        final Object expectedResult = new Object();
+        final Object toUpdate = new Object();
+        final String updateJson = "foo";
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+
+            webTarget.request();
+            result = builder;
+
+            mapper.writeValueAsString(withSameInstance(toUpdate));
+            result = updateJson;
+
+            builder.method("PUT", withAny(javax.ws.rs.client.Entity.entity(updateJson, MediaType.APPLICATION_JSON)));
+            result = response;
+
+            response.getStatus();
+            result = 200;
+
+            response.readEntity(String.class);
+            result = jsonResponseString;
+
+            mapper.readValue(jsonResponseString, withAny(objectType));
+            result = expectedResult;
+        }};
+        Object retval = apiPart.update(toUpdate);
+        assertSame("Instance should be the same instance that is returned from the mapper.", retval, expectedResult);
+    }
+
+    @Test(expected = SlickCommunicationError.class)
+    public void updateObjectBadResponseCode() throws Exception {
+        final Object toUpdate = new Object();
+        final String updateJson = "foo";
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+        }};
+
+        // retry up to 3 times when we get an error
+        new Expectations(3) {{
+            webTarget.request();
+            result = builder;
+
+            mapper.writeValueAsString(withSameInstance(toUpdate));
+            result = updateJson;
+
+            builder.method("PUT", withAny(javax.ws.rs.client.Entity.entity(updateJson, MediaType.APPLICATION_JSON)));
+            result = response;
+
+            response.getStatus();
+            result = 500;
+        }};
+        new Expectations() {{
+            webTarget.getUri();
+            result = new URI("http://foo/bar");
+        }};
+
+        apiPart.update(toUpdate);
+    }
+
+    @Test(expected = SlickCommunicationError.class)
+    public void updateObjectMapperError() throws Exception {
+        final Object toUpdate = new Object();
+        final String updateJson = "foo";
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+        }};
+
+        // retry up to 3 times when we get an error
+        new Expectations(3) {{
+            webTarget.request();
+            result = builder;
+
+            mapper.writeValueAsString(withSameInstance(toUpdate));
+            result = updateJson;
+
+            builder.method("PUT", withAny(javax.ws.rs.client.Entity.entity(updateJson, MediaType.APPLICATION_JSON)));
+            result = response;
+
+            response.getStatus();
+            result = 200;
+
+            response.readEntity(String.class);
+            result = jsonResponseString;
+
+            mapper.readValue(jsonResponseString, withAny(objectType));
+            result = new JsonMappingException("");
+        }};
+        new Expectations() {{
+            webTarget.getUri();
+            result = new URI("http://foo/bar");
+        }};
+
+        apiPart.update(toUpdate);
+
+    }
+
+    @Test
+    public void getListNormalWorkflow() throws Exception {
+        final List<Object> expectedResult = new ArrayList<>();
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+
+            webTarget.request();
+            result = builder;
+
+            builder.method("GET");
+            result = response;
+
+            response.getStatus();
+            result = 200;
+
+            response.readEntity(String.class);
+            result = jsonResponseString;
+
+            mapper.readValue(jsonResponseString, withAny(objectType));
+            result = expectedResult;
+        }};
+        List<Object> retval = apiPart.getList();
+        assertSame("Instance should be the same instance that is returned from the mapper.", retval, expectedResult);
+    }
+
+    @Test(expected = SlickCommunicationError.class)
+    public void getListBadResponseCode() throws Exception {
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+        }};
+
+        // retry up to 3 times when we get an error
+        new Expectations(3) {{
+            webTarget.request();
+            result = builder;
+
+            builder.method("GET");
+            result = response;
+
+            response.getStatus();
+            result = 500;
+        }};
+        new Expectations() {{
+            webTarget.getUri();
+            result = new URI("http://foo/bar");
+        }};
+
+        apiPart.getList();
+    }
+
+    @Test(expected = SlickCommunicationError.class)
+    public void getListMapperError() throws Exception {
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+        }};
+
+        // retry up to 3 times when we get an error
+        new Expectations(3) {{
+            webTarget.request();
+            result = builder;
+
+            builder.method("GET");
+            result = response;
+
+            response.getStatus();
+            result = 200;
+
+            response.readEntity(String.class);
+            result = jsonResponseString;
+
+            mapper.readValue(jsonResponseString, withAny(objectType));
+            //mapper.readValue(jsonResponseString, withAny(TypeReference.class));
+            result = new JsonMappingException("");
+        }};
+        new Expectations() {{
+            webTarget.getUri();
+            result = new URI("http://foo/bar");
+        }};
+
+        apiPart.getList();
+    }
+
+    @Test
+    public void createObjectNormalWorkflow() throws Exception {
+        final Object expectedResult = new Object();
+        final Object toUpdate = new Object();
+        final String updateJson = "foo";
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+
+            webTarget.request();
+            result = builder;
+
+            mapper.writeValueAsString(withSameInstance(toUpdate));
+            result = updateJson;
+
+            builder.method("POST", withAny(javax.ws.rs.client.Entity.entity(updateJson, MediaType.APPLICATION_JSON)));
+            result = response;
+
+            response.getStatus();
+            result = 200;
+
+            response.readEntity(String.class);
+            result = jsonResponseString;
+
+            mapper.readValue(jsonResponseString, withAny(objectType));
+            result = expectedResult;
+        }};
+        Object retval = apiPart.create(toUpdate);
+        assertSame("Instance should be the same instance that is returned from the mapper.", retval, expectedResult);
+    }
+
+    @Test(expected = SlickCommunicationError.class)
+    public void createObjectBadResponseCode() throws Exception {
+        final Object toUpdate = new Object();
+        final String updateJson = "foo";
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+        }};
+
+        // retry up to 3 times when we get an error
+        new Expectations(3) {{
+            webTarget.request();
+            result = builder;
+
+            mapper.writeValueAsString(withSameInstance(toUpdate));
+            result = updateJson;
+
+            builder.method("POST", withAny(javax.ws.rs.client.Entity.entity(updateJson, MediaType.APPLICATION_JSON)));
+            result = response;
+
+            response.getStatus();
+            result = 500;
+        }};
+        new Expectations() {{
+            webTarget.getUri();
+            result = new URI("http://foo/bar");
+        }};
+
+        apiPart.create(toUpdate);
+    }
+
+    @Test(expected = SlickCommunicationError.class)
+    public void createObjectMapperError() throws Exception {
+        final Object toUpdate = new Object();
+        final String updateJson = "foo";
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+        }};
+
+        // retry up to 3 times when we get an error
+        new Expectations(3) {{
+            webTarget.request();
+            result = builder;
+
+            mapper.writeValueAsString(withSameInstance(toUpdate));
+            result = updateJson;
+
+            builder.method("POST", withAny(javax.ws.rs.client.Entity.entity(updateJson, MediaType.APPLICATION_JSON)));
+            result = response;
+
+            response.getStatus();
+            result = 200;
+
+            response.readEntity(String.class);
+            result = jsonResponseString;
+
+            mapper.readValue(jsonResponseString, withAny(objectType));
+            result = new JsonMappingException("");
+        }};
+        new Expectations() {{
+            webTarget.getUri();
+            result = new URI("http://foo/bar");
+        }};
+
+        apiPart.create(toUpdate);
+
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.slickqa.client.impl;
 
 import com.slickqa.client.SlickClient;
+import com.slickqa.client.errors.SlickError;
 
 import javax.ws.rs.client.WebTarget;
 
@@ -10,7 +11,7 @@ import javax.ws.rs.client.WebTarget;
  * Created by jcorbett on 4/7/14.
  */
 public interface ParentApiPart {
-    public WebTarget getWebTarget();
+    public WebTarget getWebTarget() throws SlickError;
     public ParentApiPart getParent();
     public SlickClient getSlickClient();
 }

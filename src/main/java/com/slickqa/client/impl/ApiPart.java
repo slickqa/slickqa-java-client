@@ -2,6 +2,7 @@ package com.slickqa.client.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.slickqa.client.SlickClient;
 import com.slickqa.client.apiparts.QueryAndCreateApi;
@@ -24,13 +25,15 @@ import java.util.List;
 public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi<T>, ParentApiPart {
 
     private ParentApiPart parent;
-    private Class<T> type;
     private ObjectMapper mapper;
+    private JavaType type;
+    private JavaType listType;
 
     public ApiPart(Class<T> type, ParentApiPart parent, ObjectMapper mapper) {
         this.parent = parent;
         this.mapper = mapper;
-        this.type = type;
+        this.type = mapper.constructType(type);
+        this.listType = mapper.getTypeFactory().constructCollectionType(List.class, type);
     }
 
     public ApiPart(Class<T> type, ParentApiPart parent) {
@@ -38,7 +41,7 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
     }
 
 
-    private <V> V makeRequest(String method, TypeReference<V> type, V body) throws SlickError {
+    private <V> V makeRequest(String method, JavaType type, V body) throws SlickError {
         WebTarget target = getParent().getWebTarget();
         Response lastResponse = null;
         Exception lastException = null;
@@ -72,7 +75,7 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
     //------------------------------ ParentApiPart -------------------------------------
 
     @Override
-    public WebTarget getWebTarget() {
+    public WebTarget getWebTarget() throws SlickError {
         return getParent().getWebTarget();
     }
 
@@ -90,60 +93,30 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
 
     @Override
     public T get() throws SlickError {
-/*        WebTarget target = getParent().getWebTarget();
-        Response lastResponse = null;
-        Exception lastException = null;
-        for(int i = 0; i < 3; i++) {
-            lastResponse = target.request().get();
-            if (lastResponse.getStatus() == 200) {
-                try {
-                    return mapper.readValue(lastResponse.readEntity(String.class), type);
-                } catch (IOException e) {
-                    lastException = e;
-                }
-            }
-        }
-        if(lastException != null)
-            throw new SlickCommunicationError(target.getUri().toString(), lastResponse, lastException);
-        else
-            throw new SlickCommunicationError(target.getUri().toString(), lastResponse);*/
-        return makeRequest("GET", new TypeReference<T>() { }, null);
+        return makeRequest("GET", type, null);
 
     }
 
     @Override
     public T update(T item) throws SlickError {
-        return null;
+        return makeRequest("PUT", type, item);
     }
 
     @Override
     public void delete() throws SlickError {
-        WebTarget target = getParent().getWebTarget();
-        Response lastResponse = null;
-        for(int i = 0; i < 3; i++) {
-            lastResponse = target.request().delete();
-            if (lastResponse.getStatus() == 200)
-                return;
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                // do nothing, we really don't care
-            }
-        }
-        // if we haven't gotten a good response code
-        throw new SlickCommunicationError(target.getUri().toString(), lastResponse);
+        makeRequest("DELETE", null, null);
     }
 
     //------------------------------ QueryAndCreateApi -------------------------------------
 
     @Override
     public List<T> getList() throws SlickError {
-        return null;
+        return makeRequest("GET", listType, null);
     }
 
     @Override
     public T create(T item) throws SlickError {
-        return null;
+        return makeRequest("POST", type, item);
     }
 
     @Override
