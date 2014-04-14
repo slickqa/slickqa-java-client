@@ -1,5 +1,7 @@
 package com.slickqa.client;
 
+import com.slickqa.client.impl.SlickClientImpl;
+
 /**
  * Factory class for creating SlickClient instances.
  *
@@ -7,6 +9,6 @@ package com.slickqa.client;
  */
 public class SlickClientFactory {
     public static SlickClient getSlickClient(String baseUrl) {
-        return null;
+        return new SlickClientImpl(baseUrl);
     }
 }
