@@ -3,7 +3,9 @@ package com.slickqa.client.impl;
 import com.slickqa.client.SlickClient;
 import com.slickqa.client.apiparts.ProjectApi;
 import com.slickqa.client.apiparts.QueryAndCreateApi;
+import com.slickqa.client.apiparts.RetrieveUpdateDeleteApi;
 import com.slickqa.client.errors.SlickError;
+import com.slickqa.client.model.Configuration;
 import com.slickqa.client.model.Project;
 
 import javax.ws.rs.client.Client;
@@ -36,6 +38,8 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
 
     private ProjectApiPart projectApiPart;
 
+    private ApiPart<Configuration> configurationApiPart;
+
     private Client restClient;
 
     public SlickClientImpl(String baseUrl, Client restClient) {
@@ -48,10 +52,27 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         limit = null;
         skip = null;
         projectApiPart = new ProjectApiPart(this);
+        configurationApiPart = new ApiPart<>(Configuration.class, this);
     }
 
     public SlickClientImpl(String baseUrl) {
         this(baseUrl, ClientBuilder.newClient());
+    }
+
+    private String createQueryFromProperties(Map<String, String> properties) {
+        StringBuilder query = new StringBuilder();
+        if (properties.size() > 1) {
+            query.append("and(");
+        }
+        List<String> queries = new ArrayList<>(properties.size());
+        for(Map.Entry<String, String> entry : properties.entrySet()) {
+            queries.add(MessageFormat.format("eq({0},\"{1}\")", entry.getKey(), entry.getValue()));
+        }
+        query.append(join(queries, ","));
+        if (properties.size() > 1) {
+            query.append(")");
+        }
+        return query.toString();
     }
 
     @Override
@@ -64,19 +85,7 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
     public QueryAndCreateApi<Project> projects(Map<String, String> properties) {
         contextPathOne = "projects";
         if(properties != null && !properties.isEmpty()) {
-            StringBuilder query = new StringBuilder();
-            if (properties.size() > 1) {
-                query.append("and(");
-            }
-            List<String> queries = new ArrayList<>(properties.size());
-            for(Map.Entry<String, String> entry : properties.entrySet()) {
-                queries.add(MessageFormat.format("eq({0},\"{1}\")", entry.getKey(), entry.getValue()));
-            }
-            query.append(join(queries, ","));
-            if (properties.size() > 1) {
-                query.append(")");
-            }
-            this.query = query.toString();
+            this.query = createQueryFromProperties(properties);
         }
         return projectApiPart;
     }
@@ -106,6 +115,48 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         contextPathOne = "projects";
         contextPathTwo = idOrName;
         return projectApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<Configuration> configurations() {
+        contextPathOne = "configurations";
+        return configurationApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<Configuration> configurations(Map<String, String> properties) {
+        contextPathOne = "configurations";
+        if(properties != null && !properties.isEmpty()) {
+            this.query = createQueryFromProperties(properties);
+        }
+        return configurationApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<Configuration> configurations(String query) {
+        return configurations(query, null, null, null);
+    }
+
+    @Override
+    public QueryAndCreateApi<Configuration> configurations(String query, String orderBy) {
+        return configurations(query, orderBy, null, null);
+    }
+
+    @Override
+    public QueryAndCreateApi<Configuration> configurations(String query, String orderBy, Integer limit, Integer skip) {
+        this.contextPathOne = "configurations";
+        this.query = query;
+        this.orderby = orderBy;
+        this.limit = limit;
+        this.skip = skip;
+        return configurationApiPart;
+    }
+
+    @Override
+    public RetrieveUpdateDeleteApi<Configuration> configuration(String idOrName) {
+        contextPathOne = "configurations";
+        contextPathTwo = idOrName;
+        return configurationApiPart;
     }
 
     @Override

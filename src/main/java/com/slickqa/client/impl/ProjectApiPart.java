@@ -3,7 +3,9 @@ package com.slickqa.client.impl;
 import com.slickqa.client.apiparts.ProjectApi;
 import com.slickqa.client.apiparts.QueryAndCreateApi;
 import com.slickqa.client.apiparts.ReleaseApi;
+import com.slickqa.client.apiparts.RetrieveUpdateDeleteApi;
 import com.slickqa.client.errors.SlickError;
+import com.slickqa.client.model.Component;
 import com.slickqa.client.model.Project;
 import com.slickqa.client.model.Release;
 
@@ -17,6 +19,7 @@ public class ProjectApiPart extends ApiPart<Project> implements ProjectApi {
     private String contextPathOne;
     private String contextPathTwo;
     private ReleaseApiPart releaseApiPart;
+    private ApiPart<Component> componentApiPart;
 
 
     public ProjectApiPart(ParentApiPart parent) {
@@ -24,6 +27,7 @@ public class ProjectApiPart extends ApiPart<Project> implements ProjectApi {
         contextPathOne = null;
         contextPathTwo = null;
         releaseApiPart = new ReleaseApiPart(this);
+        componentApiPart = new ApiPart<>(Component.class, this);
     }
 
     @Override
@@ -54,5 +58,18 @@ public class ProjectApiPart extends ApiPart<Project> implements ProjectApi {
         contextPathOne = "releases";
         contextPathTwo = idOrName;
         return releaseApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<Component> components() {
+        contextPathOne = "components";
+        return componentApiPart;
+    }
+
+    @Override
+    public RetrieveUpdateDeleteApi<Component> component(String idOrName) {
+        contextPathOne = "components";
+        contextPathTwo = idOrName;
+        return componentApiPart;
     }
 }

@@ -76,4 +76,42 @@ public class ProjectApiPartTest {
         assertSame(thirdTarget, projectApiPart.getWebTarget());
         assertSame(parentTarget, projectApiPart.getWebTarget());
     }
+
+    @Test
+    public void componentsCausesPathAddedToWebTarget() throws Exception {
+        new Expectations() {{
+            parent.getWebTarget();
+            result = parentTarget;
+
+            parentTarget.path("components");
+            result = secondTarget;
+
+            parent.getWebTarget();
+            result = parentTarget;
+        }};
+        projectApiPart.components();
+        assertSame(secondTarget, projectApiPart.getWebTarget());
+        assertSame(parentTarget, projectApiPart.getWebTarget());
+    }
+
+    @Test
+    public void componentWithIdAddsTwoPathsToWebTarget() throws Exception {
+        final String componentId = "foo";
+        new Expectations() {{
+            parent.getWebTarget();
+            result = parentTarget;
+
+            parentTarget.path("components");
+            result = secondTarget;
+
+            secondTarget.path(componentId);
+            result = thirdTarget;
+
+            parent.getWebTarget();
+            result = parentTarget;
+        }};
+        projectApiPart.component(componentId);
+        assertSame(thirdTarget, projectApiPart.getWebTarget());
+        assertSame(parentTarget, projectApiPart.getWebTarget());
+    }
 }
