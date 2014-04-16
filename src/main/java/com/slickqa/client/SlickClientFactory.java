@@ -7,7 +7,9 @@ import com.slickqa.client.impl.SlickClientImpl;
  *
  * Created by jcorbett on 4/7/14.
  */
-public class SlickClientFactory {
+public final class SlickClientFactory {
+    private SlickClientFactory() {}
+
     public static SlickClient getSlickClient(String baseUrl) {
         return new SlickClientImpl(baseUrl);
     }

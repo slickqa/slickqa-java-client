@@ -1,12 +1,11 @@
 package com.slickqa.client.impl;
 
 import com.slickqa.client.SlickClient;
-import com.slickqa.client.apiparts.ProjectApi;
-import com.slickqa.client.apiparts.QueryAndCreateApi;
-import com.slickqa.client.apiparts.RetrieveUpdateDeleteApi;
+import com.slickqa.client.apiparts.*;
 import com.slickqa.client.errors.SlickError;
 import com.slickqa.client.model.Configuration;
 import com.slickqa.client.model.Project;
+import com.slickqa.client.model.Result;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -40,6 +39,8 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
 
     private ApiPart<Configuration> configurationApiPart;
 
+    private ResultApiPart resultApiPart;
+
     private Client restClient;
 
     public SlickClientImpl(String baseUrl, Client restClient) {
@@ -53,6 +54,7 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         skip = null;
         projectApiPart = new ProjectApiPart(this);
         configurationApiPart = new ApiPart<>(Configuration.class, this);
+        resultApiPart = new ResultApiPart(this);
     }
 
     public SlickClientImpl(String baseUrl) {
@@ -157,6 +159,48 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         contextPathOne = "configurations";
         contextPathTwo = idOrName;
         return configurationApiPart;
+    }
+
+    @Override
+    public ResultQueryApi results() {
+        contextPathOne = "results";
+        return resultApiPart;
+    }
+
+    @Override
+    public ResultQueryApi results(Map<String, String> properties) {
+        contextPathOne = "results";
+        if(properties != null && !properties.isEmpty()) {
+            this.query = createQueryFromProperties(properties);
+        }
+        return resultApiPart;
+    }
+
+    @Override
+    public ResultQueryApi results(String query) {
+        return results(query, null, null, null);
+    }
+
+    @Override
+    public ResultQueryApi results(String query, String orderBy) {
+        return results(query, orderBy, null, null);
+    }
+
+    @Override
+    public ResultQueryApi results(String query, String orderBy, Integer limit, Integer skip) {
+        this.contextPathOne = "results";
+        this.query = query;
+        this.orderby = orderBy;
+        this.limit = limit;
+        this.skip = skip;
+        return resultApiPart;
+    }
+
+    @Override
+    public ResultApi result(String idOrName) {
+        contextPathOne = "results";
+        contextPathTwo = idOrName;
+        return resultApiPart;
     }
 
     @Override

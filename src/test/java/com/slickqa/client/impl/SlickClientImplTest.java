@@ -432,4 +432,189 @@ public class SlickClientImplTest {
         assertSame(targetThree, slickClient.getWebTarget());
         assertSame(targetOne, slickClient.getWebTarget());
     }
+
+    @Test
+    public void resultsAddsPathToWebTarget() throws Exception {
+        new Expectations() {{
+            restClient.target(baseUrl);
+            result = targetOne;
+
+            targetOne.path("results");
+            result = targetTwo;
+
+            restClient.target(baseUrl);
+            result = targetOne;
+        }};
+        assertNotNull("The return value from results method should not be null.", slickClient.results());
+        assertSame(targetTwo, slickClient.getWebTarget());
+        assertSame(targetOne, slickClient.getWebTarget());
+    }
+
+    @Test
+    public void resultAddsTwoPathsToWebTarget() throws Exception {
+        final String resultId = "foo";
+        new Expectations() {{
+            restClient.target(baseUrl);
+            result = targetOne;
+
+            targetOne.path("results");
+            result = targetTwo;
+
+            targetTwo.path(resultId);
+            result = targetThree;
+
+            restClient.target(baseUrl);
+            result = targetOne;
+        }};
+        assertNotNull("The return value from result(id) method should not be null.", slickClient.result(resultId));
+        assertSame(targetThree, slickClient.getWebTarget());
+        assertSame(targetOne, slickClient.getWebTarget());
+    }
+
+    @Test
+    public void resultQueryOnly() throws Exception {
+        final String query = "eq(one,\"two\")";
+        new Expectations() {{
+            restClient.target(baseUrl);
+            result = targetOne;
+
+            targetOne.path("results");
+            result = targetTwo;
+
+            targetTwo.queryParam("q", query);
+            result = targetThree;
+
+            restClient.target(baseUrl);
+            result = targetOne;
+        }};
+
+        assertNotNull("The return value from results(query) method should not be null.", slickClient.results(query));
+        assertSame(targetThree, slickClient.getWebTarget());
+        assertSame(targetOne, slickClient.getWebTarget());
+    }
+
+    @Test
+    public void resultQueryAndOrderBy() throws Exception {
+        final String query = "eq(one,\"two\")";
+        final String orderBy = "-lastUpdated";
+        new Expectations() {{
+            restClient.target(baseUrl);
+            result = targetOne;
+
+            targetOne.path("results");
+            result = targetTwo;
+
+            targetTwo.queryParam("q", query);
+            result = targetThree;
+
+            targetThree.queryParam("orderby", orderBy);
+            result = targetOne;
+
+            restClient.target(baseUrl);
+            result = targetTwo;
+        }};
+
+        assertNotNull("The return value from results(query) method should not be null.", slickClient.results(query, orderBy));
+        assertSame(targetOne, slickClient.getWebTarget());
+        assertSame(targetTwo, slickClient.getWebTarget());
+
+    }
+
+    @Test
+    public void resultQueryOrderByLimitAndSkip() throws Exception {
+        final String query = "eq(one,\"two\")";
+        final String orderBy = "-lastUpdated";
+        final Integer limit = 10;
+        final Integer skip = 5;
+        new Expectations() {{
+            restClient.target(baseUrl);
+            result = targetOne;
+
+            targetOne.path("results");
+            result = targetTwo;
+
+            targetTwo.queryParam("q", query);
+            result = targetThree;
+
+            targetThree.queryParam("orderby", orderBy);
+            result = targetOne;
+
+            targetOne.queryParam("limit", limit);
+            result = targetTwo;
+
+            targetTwo.queryParam("skip", skip);
+            result = targetThree;
+
+            restClient.target(baseUrl);
+            result = targetOne;
+        }};
+
+        assertNotNull("The return value from results(query, orderby, limit, skip) method should not be null.", slickClient.results(query, orderBy, limit, skip));
+        assertSame(targetThree, slickClient.getWebTarget());
+        assertSame(targetOne, slickClient.getWebTarget());
+
+    }
+
+    @Test
+    public void resultPropertiesQueryEmptyHashMap() throws Exception {
+        new Expectations() {{
+            restClient.target(baseUrl);
+            result = targetOne;
+
+            targetOne.path("results");
+            result = targetTwo;
+
+            restClient.target(baseUrl);
+            result = targetOne;
+        }};
+        assertNotNull("The return value from results(properties) method should not be null.", slickClient.results(new HashMap<String, String>()));
+        assertSame(targetTwo, slickClient.getWebTarget());
+        assertSame(targetOne, slickClient.getWebTarget());
+
+    }
+
+    @Test
+    public void resultPropertiesQueryOneEntryHashMap() throws Exception {
+        final String expectedQuery = "eq(one,\"two\")";
+        new Expectations() {{
+            restClient.target(baseUrl);
+            result = targetOne;
+
+            targetOne.path("results");
+            result = targetTwo;
+
+            targetTwo.queryParam("q",expectedQuery);
+            result = targetThree;
+
+            restClient.target(baseUrl);
+            result = targetOne;
+        }};
+        assertNotNull("The return value from results(properties) method should not be null.", slickClient.results(MapUtility.parameters("one", "two")));
+        assertSame(targetThree, slickClient.getWebTarget());
+        assertSame(targetOne, slickClient.getWebTarget());
+    }
+
+    @Test
+    public void resultPropertiesQueryMultipleEntryHashMap() throws Exception {
+        final String expectedQuery = "and(eq(foo,\"bar\"),eq(one,\"two\"))";
+        new Expectations() {{
+            restClient.target(baseUrl);
+            result = targetOne;
+
+            targetOne.path("results");
+            result = targetTwo;
+
+            targetTwo.queryParam("q",expectedQuery);
+            result = targetThree;
+
+            restClient.target(baseUrl);
+            result = targetOne;
+        }};
+        SortedMap<String, String> parameters = new TreeMap<>();
+        parameters.put("foo", "bar");
+        parameters.put("one", "two");
+        assertNotNull("The return value from results(properties) method should not be null.", slickClient.results(parameters));
+        assertSame(targetThree, slickClient.getWebTarget());
+        assertSame(targetOne, slickClient.getWebTarget());
+    }
 }

@@ -1,5 +1,7 @@
 package com.slickqa.client.impl;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
@@ -7,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.slickqa.client.SlickClient;
 import com.slickqa.client.errors.SlickCommunicationError;
+import com.slickqa.client.errors.SlickError;
 import mockit.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -510,6 +513,27 @@ public class ApiPartTest {
 
         apiPart.create(toUpdate);
 
+    }
+
+    @Test(expected = SlickError.class)
+    public void createObjectMapperBodyError() throws Exception {
+        final Object toUpdate = new Object();
+        final String updateJson = "foo";
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+
+            webTarget.request();
+            result = builder;
+
+            mapper.writeValueAsString(withSameInstance(toUpdate));
+            result = new JsonGenerationException("10");
+
+            webTarget.getUri();
+            result = new URI("http://foo/bar");
+        }};
+
+        apiPart.create(toUpdate);
     }
 
     @Test

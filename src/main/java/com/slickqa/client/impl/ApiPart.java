@@ -54,7 +54,7 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
                 try {
                     lastResponse = target.request().method(method, Entity.entity(mapper.writeValueAsString(body), MediaType.APPLICATION_JSON)); //, mapper.writeValueAsString(body));
                 } catch (JsonProcessingException e) {
-                    throw new SlickError(MessageFormat.format("Problem in JSON serialization of body for request to: {}", target.getUri().toString()), e);
+                    throw new SlickError(MessageFormat.format("Problem in JSON serialization of body for request to: {0}", target.getUri().toString()), e);
                 }
             } else {
                 lastResponse = target.request().method(method);
