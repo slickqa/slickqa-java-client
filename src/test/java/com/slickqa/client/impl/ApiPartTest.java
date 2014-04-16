@@ -512,4 +512,82 @@ public class ApiPartTest {
 
     }
 
+    @Test
+    public void findOrCreateFoundItem() throws Exception {
+        final Object expectedResult = new Object();
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+
+            webTarget.request();
+            result = builder;
+
+            builder.method("GET");
+            result = response;
+
+            response.getStatus();
+            result = 200;
+
+            response.readEntity(String.class);
+            result = jsonResponseString;
+
+            mapper.readValue(jsonResponseString, withAny(objectType));
+            result = expectedResult;
+        }};
+        Object retval = apiPart.findOrCreate(new Object());
+        assertSame("Instance should be the same instance that is returned from the mapper.", retval, expectedResult);
+    }
+
+    @Test
+    public void findOrCreateMustCreate() throws Exception {
+        final Object passedIn = new Object();
+        final Object expected = new Object();
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+        }};
+
+        // retry up to 3 times when we get an error
+        new Expectations(3) {{
+            webTarget.request();
+            result = builder;
+
+            builder.method("GET");
+            result = response;
+
+            response.getStatus();
+            result = 404;
+        }};
+        new Expectations() {{
+            webTarget.getUri();
+            result = new URI("http://foo/bar");
+        }};
+
+        final String updateJson = "foo";
+        new Expectations() {{
+            parent.getWebTarget();
+            result = webTarget;
+
+            webTarget.request();
+            result = builder;
+
+            mapper.writeValueAsString(withSameInstance(passedIn));
+            result = updateJson;
+
+            builder.method("POST", withAny(javax.ws.rs.client.Entity.entity(updateJson, MediaType.APPLICATION_JSON)));
+            result = response;
+
+            response.getStatus();
+            result = 200;
+
+            response.readEntity(String.class);
+            result = jsonResponseString;
+
+            mapper.readValue(jsonResponseString, withAny(objectType));
+            result = expected;
+        }};
+        Object retval = apiPart.findOrCreate(passedIn);
+        assertSame("Instance should be the same instance that is returned from the mapper.", retval, expected);
+    }
+
 }
