@@ -1,7 +1,8 @@
 package com.slickqa.client.errors;
 
 import javax.ws.rs.core.Response;
-import java.text.MessageFormat;
+
+import static java.text.MessageFormat.format;
 
 /**
  * This is a parent to any slick error that happens while communicating with the slick server.
@@ -10,12 +11,12 @@ import java.text.MessageFormat;
 public class SlickCommunicationError extends SlickError {
     private Response response;
     public SlickCommunicationError(String url, Response response) {
-        super(MessageFormat.format("Error communicating with slick at url '{0}', response: '{1}'", url, response));
+        super(format("Error communicating with slick at url {0}, response: {1}", url, response));
         this.response = response;
     }
 
     public SlickCommunicationError(String url, Response response, Exception inner) {
-        super(MessageFormat.format("Error communicating with slick at url '{0}', response: '{1}'", url, response), inner);
+        super(format("Error communicating with slick at url {0}, response: {1}", url, response), inner);
         this.response = response;
     }
 

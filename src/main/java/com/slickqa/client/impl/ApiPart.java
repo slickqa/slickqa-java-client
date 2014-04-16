@@ -24,10 +24,10 @@ import java.util.List;
  */
 public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi<T>, ParentApiPart {
 
-    private ParentApiPart parent;
-    private ObjectMapper mapper;
-    private JavaType type;
-    private JavaType listType;
+    protected ParentApiPart parent;
+    protected ObjectMapper mapper;
+    protected JavaType type;
+    protected JavaType listType;
 
     public ApiPart(Class<T> type, ParentApiPart parent, ObjectMapper mapper) {
         this.parent = parent;
@@ -40,9 +40,13 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
         this(type, parent, JsonUtil.getObjectMapper());
     }
 
+    protected WebTarget getWebTargetForRequest() throws SlickError {
+        return getParent().getWebTarget();
+    }
 
-    private <V> V makeRequest(String method, JavaType type, V body) throws SlickError {
-        WebTarget target = getParent().getWebTarget();
+
+    protected <V> V makeRequest(String method, JavaType type, V body) throws SlickError {
+        WebTarget target = getWebTargetForRequest();
         Response lastResponse = null;
         Exception lastException = null;
         for(int i = 0; i < 3; i++) {
