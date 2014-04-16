@@ -3,7 +3,6 @@ package com.slickqa.client;
 import com.slickqa.client.apiparts.*;
 import com.slickqa.client.model.Configuration;
 import com.slickqa.client.model.Project;
-import com.slickqa.client.model.Result;
 
 import java.util.Map;
 
@@ -14,12 +13,13 @@ import java.util.Map;
  *
  * Ok, that was probably too boring to help.  So how about 3 concise code samples to show how to use the api.
  *
- * <h2>Example 1</h2>
- * In this example we will simply fetch a list of projects from slick, then print them out to the console.
- * This example is purposefully simplistic.  It shows how to get started.
+ * <h3>Example 1</h3>
  *
- * <code>
- *     SlickClient slick = SlickClientFactory.getSlickClient("http://localhost/slick")
+ * <p>In this example we will simply fetch a list of projects from slick, then print them out to the console.
+ * This example is purposefully simplistic.  It shows how to get started.</p>
+ *
+ * <pre>{@code
+ *     SlickClient slick = SlickClientFactory.getSlickClient("http://localhost/slick");
  *     List<Project> projects = null;
  *     try {
  *         projects = slick.projects().getList();
@@ -35,7 +35,8 @@ import java.util.Map;
  *     } else {
  *         System.out.println("Nothing to see here, move along.");
  *     }
- * </code>
+ * }
+ * </pre>
  *
  * @author Jason Corbett
  * Created by jcorbett on 4/6/14.
