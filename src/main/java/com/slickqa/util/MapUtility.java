@@ -6,7 +6,9 @@ import java.util.Map;
 /**
  * Created by jcorbett on 4/6/14.
  */
-public class MapUtility {
+public final class MapUtility {
+    private MapUtility() {}
+
     public static Map<String, String> parameters(String... args) {
         HashMap<String, String> retval = new HashMap<>();
         if ((args.length % 2) != 0)
