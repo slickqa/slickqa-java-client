@@ -19,7 +19,7 @@ import java.util.Map;
  * This example is purposefully simplistic.  It shows how to get started.</p>
  *
  * <pre class="brush:java">
- *     SlickClient slick = SlickClientFactory.getSlickClient("http://localhost/slick");
+ *     SlickClient slick = SlickClientFactory.getSlickClient("http://localhost/slick/api");
  *     List&lt;Project&gt; projects = null;
  *     try {
  *         projects = slick.projects().getList();
