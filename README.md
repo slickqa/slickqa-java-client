@@ -14,7 +14,7 @@ Here is an example (also included in the javadocs), of how to get a list of
 projects out of slick:
 
 ```java
-SlickClient slick = SlickClientFactory.getSlickClient("http://localhost/slick");
+SlickClient slick = SlickClientFactory.getSlickClient("http://localhost/slick/api");
 List<Project> projects = null;
 try {
     projects = slick.projects().getList();
