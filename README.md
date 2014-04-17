@@ -15,7 +15,7 @@ projects out of slick:
 
 ```java
 SlickClient slick = SlickClientFactory.getSlickClient("http://localhost/slick");
-List&lt;Project&gt; projects = null;
+List<Project> projects = null;
 try {
     projects = slick.projects().getList();
 } catch(SlickError e) {
