@@ -18,9 +18,9 @@ import java.util.Map;
  * <p>In this example we will simply fetch a list of projects from slick, then print them out to the console.
  * This example is purposefully simplistic.  It shows how to get started.</p>
  *
- * <pre>{@code
+ * <pre class="brush:java">
  *     SlickClient slick = SlickClientFactory.getSlickClient("http://localhost/slick");
- *     List<Project> projects = null;
+ *     List&lt;Project&gt; projects = null;
  *     try {
  *         projects = slick.projects().getList();
  *     } catch(SlickError e) {
@@ -35,8 +35,6 @@ import java.util.Map;
  *     } else {
  *         System.out.println("Nothing to see here, move along.");
  *     }
- * }
- * </pre>
  *
  * @author Jason Corbett
  * Created by jcorbett on 4/6/14.
