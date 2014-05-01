@@ -5,7 +5,7 @@ This is a java client api for talking to the slick test manager.
 
 Javadocs for the currently in-development version are available on the 
 [build server](http://build.tcrun.org/job/slickqa-java-client/lastSuccessfulBuild/artifact/target/apidocs/index.html).
-
+You can also see unit test results and code coverage results on the [build server](http://build.tcrun.org/job/slickqa-java-client/).
 
 Examples
 --------
