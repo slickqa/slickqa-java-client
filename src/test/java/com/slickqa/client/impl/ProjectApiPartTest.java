@@ -4,7 +4,9 @@ import com.slickqa.client.errors.SlickError;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Tested;
+import mockit.integration.junit4.JMockit;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import javax.ws.rs.client.WebTarget;
 
@@ -13,6 +15,7 @@ import static org.junit.Assert.assertSame;
 /**
  * Created by jcorbett on 4/12/14.
  */
+@RunWith(JMockit.class)
 public class ProjectApiPartTest {
     @Injectable
     ParentApiPart parent;

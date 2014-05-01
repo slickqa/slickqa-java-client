@@ -8,8 +8,10 @@ import mockit.Expectations;
 import mockit.Injectable;
 import mockit.NonStrictExpectations;
 import mockit.Tested;
+import mockit.integration.junit4.JMockit;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -26,6 +28,7 @@ import static org.junit.Assert.assertSame;
  * Tests for ResultApiPart
  * Created by jcorbett on 4/16/14.
  */
+@RunWith(JMockit.class)
 public class ResultApiPartTest {
     @Injectable
     ParentApiPart parent;

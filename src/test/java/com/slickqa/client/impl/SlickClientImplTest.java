@@ -3,8 +3,10 @@ package com.slickqa.client.impl;
 import com.slickqa.util.MapUtility;
 import mockit.Expectations;
 import mockit.Injectable;
+import mockit.integration.junit4.JMockit;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -20,6 +22,7 @@ import static org.junit.Assert.assertSame;
 /**
  * Created by jcorbett on 4/12/14.
  */
+@RunWith(JMockit.class)
 public class SlickClientImplTest {
 
     @Injectable

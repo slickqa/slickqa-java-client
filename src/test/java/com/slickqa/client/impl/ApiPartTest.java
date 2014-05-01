@@ -11,8 +11,11 @@ import com.slickqa.client.SlickClient;
 import com.slickqa.client.errors.SlickCommunicationError;
 import com.slickqa.client.errors.SlickError;
 import mockit.*;
+import mockit.integration.junit4.JMockit;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import javax.swing.text.html.parser.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -28,6 +31,7 @@ import static org.junit.Assert.*;
 /**
  * Tests for com.slickqa.client.impl.ApiPart
  */
+@RunWith(JMockit.class)
 public class ApiPartTest {
 
     @Injectable
