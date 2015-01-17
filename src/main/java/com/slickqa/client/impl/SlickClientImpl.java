@@ -6,6 +6,7 @@ import com.slickqa.client.errors.SlickError;
 import com.slickqa.client.model.Configuration;
 import com.slickqa.client.model.Project;
 import com.slickqa.client.model.Result;
+import com.slickqa.client.model.TestPlan;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -39,6 +40,8 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
 
     private ApiPart<Configuration> configurationApiPart;
 
+    private ApiPart<TestPlan> testplanApiPart;
+
     private ResultApiPart resultApiPart;
 
     private Client restClient;
@@ -55,6 +58,7 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         projectApiPart = new ProjectApiPart(this);
         configurationApiPart = new ApiPart<>(Configuration.class, this);
         resultApiPart = new ResultApiPart(this);
+        testplanApiPart = new ApiPart<>(TestPlan.class, this);
     }
 
     public SlickClientImpl(String baseUrl) {
@@ -201,6 +205,48 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         contextPathOne = "results";
         contextPathTwo = idOrName;
         return resultApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<TestPlan> testplans() {
+        contextPathOne = "testplans";
+        return testplanApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<TestPlan> testplans(Map<String, String> properties) {
+        contextPathOne = "testplans";
+        if(properties != null && !properties.isEmpty()) {
+            this.query = createQueryFromProperties(properties);
+        }
+        return testplanApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<TestPlan> testplans(String query) {
+        return testplans(query, null, null, null);
+    }
+
+    @Override
+    public QueryAndCreateApi<TestPlan> testplans(String query, String orderBy) {
+        return testplans(query, orderBy, null, null);
+    }
+
+    @Override
+    public QueryAndCreateApi<TestPlan> testplans(String query, String orderBy, Integer limit, Integer skip) {
+        this.contextPathOne = "testplans";
+        this.query = query;
+        this.orderby = orderBy;
+        this.limit = limit;
+        this.skip = skip;
+        return testplanApiPart;
+    }
+
+    @Override
+    public RetrieveUpdateDeleteApi<TestPlan> testplan(String idOrName) {
+        contextPathOne = "testplans";
+        contextPathTwo = idOrName;
+        return testplanApiPart;
     }
 
     @Override

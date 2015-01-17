@@ -3,6 +3,7 @@ package com.slickqa.client;
 import com.slickqa.client.apiparts.*;
 import com.slickqa.client.model.Configuration;
 import com.slickqa.client.model.Project;
+import com.slickqa.client.model.TestPlan;
 
 import java.util.Map;
 
@@ -172,5 +173,49 @@ public interface SlickClient
      * @param idOrName The id (string representation of the BSON Object Id) or the name of the result.
      */
     public ResultApi result(String idOrName);
+
+    /**
+     * No filtering, retrieve all testplans.
+     */
+    public QueryAndCreateApi<TestPlan> testplans();
+
+    /**
+     * Filter based on properties of a testplan.  Dotted sub properties are allowed.
+     * @param properties A map of properties and their values to filter the testplans by.
+     */
+    public QueryAndCreateApi<TestPlan> testplans(Map<String, String> properties);
+
+    /**
+     * Filter the results based of a standard slick query.
+     * @param query The query to perform, using slick's generic query language.
+     */
+    public QueryAndCreateApi<TestPlan> testplans(String query);
+
+    /**
+     * Filter the results based of a standard slick query, setting a property to order the results by.
+     *
+     * @param query The query to perform, using slick's generic query language.
+     * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
+     */
+    public QueryAndCreateApi<TestPlan> testplans(String query, String orderBy);
+
+    /**
+     * Filter the results based of a standard slick query, setting a property to order the results by.  Also you can
+     * specify a limit to the number of results and set a number of results to skip (for paging purposes).  For any
+     * parameters you don't want to specify, null is allowed.
+     *
+     * @param query The query to perform, using slick's generic query language.
+     * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
+     * @param limit The maximum number of results to return, or null for no limit.
+     * @param skip The number of results to skip (maintaining order), or null for no skip.
+     */
+    public QueryAndCreateApi<TestPlan> testplans(String query, String orderBy, Integer limit, Integer skip);
+
+    /**
+     * Perform operations against a specific testplan.  You only need to enter the ID (or name) here.
+     *
+     * @param idOrName The id (string representation of the BSON Object Id) or the name of the testplan.
+     */
+    public RetrieveUpdateDeleteApi<TestPlan> testplan(String idOrName);
 
 }
