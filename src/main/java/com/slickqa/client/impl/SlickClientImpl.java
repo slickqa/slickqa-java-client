@@ -3,10 +3,7 @@ package com.slickqa.client.impl;
 import com.slickqa.client.SlickClient;
 import com.slickqa.client.apiparts.*;
 import com.slickqa.client.errors.SlickError;
-import com.slickqa.client.model.Configuration;
-import com.slickqa.client.model.Project;
-import com.slickqa.client.model.Result;
-import com.slickqa.client.model.TestPlan;
+import com.slickqa.client.model.*;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -42,6 +39,8 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
 
     private ApiPart<TestPlan> testplanApiPart;
 
+    private ApiPart<Testcase> testcaseApiPart;
+
     private ResultApiPart resultApiPart;
 
     private Client restClient;
@@ -59,6 +58,7 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         configurationApiPart = new ApiPart<>(Configuration.class, this);
         resultApiPart = new ResultApiPart(this);
         testplanApiPart = new ApiPart<>(TestPlan.class, this);
+        testcaseApiPart = new ApiPart<>(Testcase.class, this);
     }
 
     public SlickClientImpl(String baseUrl) {
@@ -247,6 +247,48 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         contextPathOne = "testplans";
         contextPathTwo = idOrName;
         return testplanApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<Testcase> testcases() {
+        contextPathOne = "testcases";
+        return testcaseApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<Testcase> testcases(Map<String, String> properties) {
+        contextPathOne = "testcases";
+        if(properties != null && !properties.isEmpty()) {
+            this.query = createQueryFromProperties(properties);
+        }
+        return testcaseApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<Testcase> testcases(String query) {
+        return testcases(query, null, null, null);
+    }
+
+    @Override
+    public QueryAndCreateApi<Testcase> testcases(String query, String orderBy) {
+        return testcases(query, orderBy, null, null);
+    }
+
+    @Override
+    public QueryAndCreateApi<Testcase> testcases(String query, String orderBy, Integer limit, Integer skip) {
+        this.contextPathOne = "testcases";
+        this.query = query;
+        this.orderby = orderBy;
+        this.limit = limit;
+        this.skip = skip;
+        return testcaseApiPart;
+    }
+
+    @Override
+    public RetrieveUpdateDeleteApi<Testcase> testcase(String idOrName) {
+        contextPathOne = "testcases";
+        contextPathTwo = idOrName;
+        return testcaseApiPart;
     }
 
     @Override
