@@ -41,6 +41,8 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
 
     private ApiPart<Testcase> testcaseApiPart;
 
+    private ApiPart<Testrun> testrunApiPart;
+
     private ResultApiPart resultApiPart;
 
     private Client restClient;
@@ -59,6 +61,7 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         resultApiPart = new ResultApiPart(this);
         testplanApiPart = new ApiPart<>(TestPlan.class, this);
         testcaseApiPart = new ApiPart<>(Testcase.class, this);
+        testrunApiPart = new ApiPart<>(Testrun.class, this);
     }
 
     public SlickClientImpl(String baseUrl) {
@@ -289,6 +292,48 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         contextPathOne = "testcases";
         contextPathTwo = idOrName;
         return testcaseApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<Testrun> testruns() {
+        contextPathOne = "testruns";
+        return testrunApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<Testrun> testruns(Map<String, String> properties) {
+        contextPathOne = "testruns";
+        if(properties != null && !properties.isEmpty()) {
+            this.query = createQueryFromProperties(properties);
+        }
+        return testrunApiPart;
+    }
+
+    @Override
+    public QueryAndCreateApi<Testrun> testruns(String query) {
+        return testruns(query, null, null, null);
+    }
+
+    @Override
+    public QueryAndCreateApi<Testrun> testruns(String query, String orderBy) {
+        return testruns(query, orderBy, null, null);
+    }
+
+    @Override
+    public QueryAndCreateApi<Testrun> testruns(String query, String orderBy, Integer limit, Integer skip) {
+        this.contextPathOne = "testruns";
+        this.query = query;
+        this.orderby = orderBy;
+        this.limit = limit;
+        this.skip = skip;
+        return testrunApiPart;
+    }
+
+    @Override
+    public RetrieveUpdateDeleteApi<Testrun> testrun(String idOrName) {
+        contextPathOne = "testruns";
+        contextPathTwo = idOrName;
+        return testrunApiPart;
     }
 
     @Override
