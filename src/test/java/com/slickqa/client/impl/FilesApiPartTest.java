@@ -27,6 +27,7 @@ import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -109,7 +110,7 @@ public class FilesApiPartTest {
         Path fileToUpload = Files.createTempFile("unittest", ".txt");
         fileToUpload.toFile().deleteOnExit();
 
-        BufferedWriter writer = Files.newBufferedWriter(fileToUpload);
+        BufferedWriter writer = Files.newBufferedWriter(fileToUpload, Charset.defaultCharset());
         writer.write("Create New File And Upload Unit Test\n");
         writer.close();
 
@@ -146,7 +147,7 @@ public class FilesApiPartTest {
             slickClient.file(withEqual(id));
             result = filesApi;
 
-            filesApi.addChunk(withAny(new byte[] {}));
+            filesApi.addChunk(withAny(new byte[]{}));
             result = expectedResult;
         }};
 
