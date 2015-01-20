@@ -45,6 +45,8 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
 
     private ResultApiPart resultApiPart;
 
+    private FilesApiPart filesApiPart;
+
     private Client restClient;
 
     public SlickClientImpl(String baseUrl, Client restClient) {
@@ -62,6 +64,7 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         testplanApiPart = new ApiPart<>(TestPlan.class, this);
         testcaseApiPart = new ApiPart<>(Testcase.class, this);
         testrunApiPart = new ApiPart<>(Testrun.class, this);
+        filesApiPart = new FilesApiPart(this);
     }
 
     public SlickClientImpl(String baseUrl) {
@@ -292,6 +295,19 @@ public class SlickClientImpl implements SlickClient, ParentApiPart {
         contextPathOne = "testcases";
         contextPathTwo = idOrName;
         return testcaseApiPart;
+    }
+
+    @Override
+    public FilesQueryApi files() {
+        contextPathOne = "files";
+        return filesApiPart;
+    }
+
+    @Override
+    public FilesApi file(String id) {
+        contextPathOne = "files";
+        contextPathTwo = id;
+        return filesApiPart;
     }
 
     @Override

@@ -266,7 +266,7 @@ public interface SlickClient
      *
      * @return The api to create and possibly upload data for StoredFiles
      */
-    //public FilesQueryApi files();
+    public FilesQueryApi files();
 
     /**
      * Access a specific stored file.  You can update the metadata about the file, or add data to the file.
@@ -274,7 +274,7 @@ public interface SlickClient
      * @param id The id of the StoredFile that you want to access.
      * @return The Api for getting and updating a StoredFile
      */
-    //public FilesApi file(String id);
+    public FilesApi file(String id);
 
     /**
      * No filtering, retrieve all testruns.

@@ -28,8 +28,9 @@ public interface FilesApi {
      *
      * @param data The "chunk" of data to upload
      * @return The uploaded StoredFile
+     * @throws SlickError if an error occurs talking to slick.
      */
-    StoredFile addChunk(Byte[] data);
+    StoredFile addChunk(byte[] data) throws SlickError;
 
     /**
      * Update the metadata of a stored file in slick.  Warning, use this with caution.  You should not change the
@@ -38,6 +39,7 @@ public interface FilesApi {
      *
      * @param storedFile The updates to the stored file.
      * @return The updated stored file from slick.
+     * @throws SlickError if an error occurs talking to slick.
      */
-    StoredFile update(StoredFile storedFile);
+    StoredFile update(StoredFile storedFile) throws SlickError;
 }
