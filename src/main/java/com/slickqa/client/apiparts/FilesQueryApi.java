@@ -33,7 +33,7 @@ public interface FilesQueryApi {
 
     /**
      * Create a new StoredFile in slick.  If you want to upload content, you will have to do that with a separate
-     * call (the {@link com.slickqa.client.apiparts.FilesApi#addChunk(Byte[]) addChunk} method of
+     * call (the {@link com.slickqa.client.apiparts.FilesApi#addChunk(byte[]) addChunk} method of
      * the {@link com.slickqa.client.apiparts.FilesApi FilesApi}).
      *
      * @param storedFile The meta-data about the file you want to add.
