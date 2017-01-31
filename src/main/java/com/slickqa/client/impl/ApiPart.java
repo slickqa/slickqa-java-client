@@ -52,12 +52,17 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
         for(int i = 0; i < 3; i++) {
             if(body != null) {
                 try {
+                    SlickClient.OpenConnectionCount.incrementAndGet();
                     lastResponse = target.request().method(method, Entity.entity(mapper.writeValueAsString(body), MediaType.APPLICATION_JSON)); //, mapper.writeValueAsString(body));
                 } catch (JsonProcessingException e) {
                     throw new SlickError(MessageFormat.format("Problem in JSON serialization of body for request to: {0}", target.getUri().toString()), e);
+                } finally {
+                    SlickClient.OpenConnectionCount.decrementAndGet();
                 }
             } else {
+                SlickClient.OpenConnectionCount.incrementAndGet();
                 lastResponse = target.request().method(method);
+                SlickClient.OpenConnectionCount.decrementAndGet();
             }
             if (lastResponse.getStatus() == 200) {
                 if (type != null) {

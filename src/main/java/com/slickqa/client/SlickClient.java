@@ -4,6 +4,7 @@ import com.slickqa.client.apiparts.*;
 import com.slickqa.client.model.*;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The main interface for a slick client api. The slick client api is a builder pattern for making requests.
@@ -41,6 +42,11 @@ import java.util.Map;
  */
 public interface SlickClient
 {
+    /**
+     * This is for use with Espresso which wants to know if it's busy.
+     */
+    public static AtomicInteger OpenConnectionCount = new AtomicInteger(0);
+
     /**
      * No filtering, retrieve all projects.
      */

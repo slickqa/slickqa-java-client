@@ -99,7 +99,9 @@ public class FilesApiPart extends ApiPart<StoredFile> implements FilesQueryApi, 
         Response lastResponse = null;
         Exception lastException = null;
         for(int i = 0; i < 3; i++) {
+            SlickClient.OpenConnectionCount.incrementAndGet();
             lastResponse = target.request().method("POST", Entity.entity(data, MediaType.APPLICATION_OCTET_STREAM));
+            SlickClient.OpenConnectionCount.decrementAndGet();
             if (lastResponse.getStatus() == 200) {
                 try {
                     return mapper.readValue(lastResponse.readEntity(String.class), type);
