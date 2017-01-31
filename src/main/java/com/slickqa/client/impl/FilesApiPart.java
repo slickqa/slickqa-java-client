@@ -94,7 +94,7 @@ public class FilesApiPart extends ApiPart<StoredFile> implements FilesQueryApi, 
     @Override
     public StoredFile addChunk(byte[] data) throws SlickError {
         // we can't use makeRequest because it does JSON, and we need binary here, so this is copied code
-        WebTarget target = getWebTargetForRequest();
+        WebTarget target = getWebTargetForRequest().path("addchunk");
         Response lastResponse = null;
         Exception lastException = null;
         for(int i = 0; i < 3; i++) {
