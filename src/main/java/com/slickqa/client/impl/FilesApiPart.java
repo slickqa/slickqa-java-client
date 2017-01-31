@@ -71,6 +71,7 @@ public class FilesApiPart extends ApiPart<StoredFile> implements FilesQueryApi, 
         storedFile.setFilename(filename);
         storedFile.setMimetype(mimetype);
         storedFile.setUploadDate(new Date());
+        storedFile.setLength(0L);
         storedFile = create(storedFile);
 
         if(storedFile.getChunkSize() == null || storedFile.getChunkSize() <= 0) {
