@@ -44,6 +44,43 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
         return getParent().getWebTarget();
     }
 
+    protected <I, O> O makeRequestWithDifferentOutput(String method, JavaType type, I body, Class<? extends O> output) throws SlickError {
+        WebTarget target = getWebTargetForRequest();
+        Response lastResponse = null;
+        Exception lastException = null;
+        for(int i = 0; i < 3; i++) {
+            if(body != null) {
+                try {
+                    SlickClient.OpenConnectionCount.incrementAndGet();
+                    lastResponse = target.request().method(method, Entity.entity(mapper.writeValueAsString(body), MediaType.APPLICATION_JSON)); //, mapper.writeValueAsString(body));
+                } catch (JsonProcessingException e) {
+                    throw new SlickError(MessageFormat.format("Problem in JSON serialization of body for request to: {0}", target.getUri().toString()), e);
+                } finally {
+                    SlickClient.OpenConnectionCount.decrementAndGet();
+                }
+            } else {
+                SlickClient.OpenConnectionCount.incrementAndGet();
+                lastResponse = target.request().method(method);
+                SlickClient.OpenConnectionCount.decrementAndGet();
+            }
+            if (lastResponse.getStatus() == 200) {
+                if (type != null) {
+                    try {
+                        return mapper.readValue(lastResponse.readEntity(String.class), type);
+                    } catch (IOException e) {
+                        lastException = e;
+                    }
+                } else {
+                    return null;
+                }
+            }
+        }
+        if(lastException != null)
+            throw new SlickCommunicationError(target.getUri().toString(), lastResponse, lastException);
+        else
+            throw new SlickCommunicationError(target.getUri().toString(), lastResponse);
+    }
+
 
     protected <V> V makeRequest(String method, JavaType type, V body) throws SlickError {
         WebTarget target = getWebTargetForRequest();
@@ -80,6 +117,7 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
             throw new SlickCommunicationError(target.getUri().toString(), lastResponse, lastException);
         else
             throw new SlickCommunicationError(target.getUri().toString(), lastResponse);
+
     }
     //------------------------------ ParentApiPart -------------------------------------
 

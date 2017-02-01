@@ -39,9 +39,9 @@ public class ResultApiPart extends ApiPart<Result> implements ResultQueryApi, Re
     }
 
     @Override
-    public List<LogEntry> addLogs(List<LogEntry> logEntries) throws SlickError {
+    public Integer addLogs(List<LogEntry> logEntries) throws SlickError {
         contextPathOne = "log";
-        return makeRequest("POST", mapper.getTypeFactory().constructCollectionType(List.class, mapper.constructType(LogEntry.class)), logEntries);
+        return makeRequestWithDifferentOutput("POST", mapper.constructType(Integer.class), logEntries, Integer.class);
     }
 
     @Override

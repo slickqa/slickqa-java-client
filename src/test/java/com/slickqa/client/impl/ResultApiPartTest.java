@@ -135,8 +135,9 @@ public class ResultApiPartTest {
     @Test
     public void addLogsNormalWorkflow() throws Exception {
         final String updateJson = "[{}, {}]";
-        final List<LogEntry> expectedResult = new ArrayList<>();
+        final Integer expectedResult = 2;
         final List<LogEntry> body = new ArrayList<>();
+        jsonResponseString = "2";
         new Expectations() {{
             parent.getWebTarget();
             result = webTarget;

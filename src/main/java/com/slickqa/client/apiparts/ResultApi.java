@@ -18,5 +18,5 @@ public interface ResultApi extends RetrieveUpdateDeleteApi<Result> {
      * @return a complete list of log entries in the result after the add.
      * @throws com.slickqa.client.errors.SlickError if a problem was encountered while communicating with the server
      */
-    public List<LogEntry> addLogs(List<LogEntry> logEntries) throws SlickError;
+    Integer addLogs(List<LogEntry> logEntries) throws SlickError;
 }
