@@ -24,6 +24,17 @@ public class Testrun {
   /* A String representation of a BSON ObjectId */
   private String id = null;
   private TestPlan testplan = null;
+
+  private List<Link> links = new ArrayList<>();
+
+  public List<Link> getLinks() {
+    return links;
+  }
+
+  public void setLinks(List<Link> links) {
+    this.links = links;
+  }
+
   public Date getRunStarted() {
     return runStarted;
   }

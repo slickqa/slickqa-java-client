@@ -27,6 +27,16 @@ public class Result {
   private String id = null;
   private Integer runlength = null;
   private List<ResultReference> history = new ArrayList<ResultReference>();
+  private List<Link> links = new ArrayList<>();
+
+  public List<Link> getLinks() {
+    return links;
+  }
+
+  public void setLinks(List<Link> links) {
+    this.links = links;
+  }
+
   public List<StoredFile> getFiles() {
     return files;
   }
