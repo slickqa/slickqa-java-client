@@ -201,6 +201,7 @@ public class Result {
     sb.append("  id: ").append(id).append("\n");
     sb.append("  runlength: ").append(runlength).append("\n");
     sb.append("  history: ").append(history).append("\n");
+    sb.append("  links: ").append(links).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

@@ -167,6 +167,7 @@ public class Testrun {
     sb.append("  config: ").append(config).append("\n");
     sb.append("  id: ").append(id).append("\n");
     sb.append("  testplan: ").append(testplan).append("\n");
+    sb.append("  links: ").append(links).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
