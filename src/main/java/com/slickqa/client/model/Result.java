@@ -28,6 +28,7 @@ public class Result {
   private Integer runlength = null;
   private List<ResultReference> history = new ArrayList<ResultReference>();
   private List<Link> links = new ArrayList<>();
+  private HashMap<String, String> attributes = new HashMap<String, String>();
 
   public List<Link> getLinks() {
     return links;
@@ -177,6 +178,9 @@ public class Result {
     this.history = history;
   }
 
+  public HashMap<String, String> getAttributes() { return attributes; }
+  public void setAttributes(HashMap<String, String> attributes) { this.attributes = attributes; }
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
@@ -202,6 +206,7 @@ public class Result {
     sb.append("  runlength: ").append(runlength).append("\n");
     sb.append("  history: ").append(history).append("\n");
     sb.append("  links: ").append(links).append("\n");
+    sb.append("  attributes: ").append(attributes).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
