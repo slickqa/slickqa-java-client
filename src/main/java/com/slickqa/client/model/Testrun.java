@@ -24,6 +24,7 @@ public class Testrun {
   /* A String representation of a BSON ObjectId */
   private String id = null;
   private TestPlan testplan = null;
+  private HashMap<String, String> attributes = new HashMap<String, String>();
 
   private List<Link> links = new ArrayList<>();
 
@@ -147,6 +148,14 @@ public class Testrun {
     this.testplan = testplan;
   }
 
+  public HashMap<String, String> getAttributes() {
+    return attributes;
+  }
+
+  public void setAttributes(HashMap<String, String> attributes) {
+    this.attributes = attributes;
+  }
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
@@ -168,6 +177,7 @@ public class Testrun {
     sb.append("  id: ").append(id).append("\n");
     sb.append("  testplan: ").append(testplan).append("\n");
     sb.append("  links: ").append(links).append("\n");
+    sb.append("  attributes: ").append(attributes).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
