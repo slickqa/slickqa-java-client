@@ -42,6 +42,8 @@ cache:
 .verify: &verify
   stage: test
   script:
+    - 'echo "${GPG_KEY}" | gpg --import'
+    - 'echo "${MAVEN_SETTINGS}" >~/.m2/settings.xml'
     - 'mvn $MAVEN_CLI_OPTS verify site site:stage'
   except:
     - master
