@@ -66,6 +66,8 @@ deploy:jdk8:
   # Use stage test here, so the pages job may later pickup the created site.
   stage: test
   script:
+    - 'echo "${GPG_KEY}" | gpg --import'
+    - 'echo "${MAVEN_SETTINGS}" >~/.m2/settings.xml'
     - 'mvn $MAVEN_CLI_OPTS deploy site site:stage'
   only:
     - master
