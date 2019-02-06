@@ -1,7 +1,5 @@
 package com.slickqa.client.errors;
 
-import mockit.Injectable;
-import mockit.NonStrictExpectations;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;

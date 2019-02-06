@@ -12,6 +12,7 @@ import com.slickqa.client.model.Release;
 public interface ProjectApi extends RetrieveUpdateDeleteApi<Project> {
     /**
      * Query for all the releases, no filtering.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Release> releases();
 
@@ -19,18 +20,20 @@ public interface ProjectApi extends RetrieveUpdateDeleteApi<Project> {
      * Use a specific release.
      *
      * @param idOrName The id or name of the release.
+     * @return ReleaseApi
      */
     public ReleaseApi release(String idOrName);
 
     /**
      * Query for all the components belonging to the specified project.
-     *
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Component> components();
 
     /**
      * Retrieve, update, or delete a specific component.
      * @param idOrName the id or name of the component.
+     * @return RetrieveUpdateDeleteApi
      */
     public RetrieveUpdateDeleteApi<Component> component(String idOrName);
 }
