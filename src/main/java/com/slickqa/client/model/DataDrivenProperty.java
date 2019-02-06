@@ -1,6 +1,7 @@
 package com.slickqa.client.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 public class DataDrivenProperty {
   private Boolean requirement = null;
   private String name = null;

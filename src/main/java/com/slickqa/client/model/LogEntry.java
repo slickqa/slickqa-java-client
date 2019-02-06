@@ -1,6 +1,8 @@
 package com.slickqa.client.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 public class LogEntry {
   private String exceptionClassName = null;
   private String level = null;

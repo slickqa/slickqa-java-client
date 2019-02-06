@@ -9,14 +9,13 @@ import com.slickqa.client.errors.SlickError;
 import com.slickqa.client.model.StoredFile;
 import org.apache.tika.Tika;
 
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;

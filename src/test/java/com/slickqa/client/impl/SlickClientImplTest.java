@@ -10,14 +10,11 @@ import org.junit.runner.RunWith;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-
 import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 /**
  * Created by jcorbett on 4/12/14.

@@ -2,12 +2,14 @@ package com.slickqa.util;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by jcorbett on 4/6/14.

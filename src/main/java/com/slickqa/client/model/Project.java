@@ -1,6 +1,8 @@
 package com.slickqa.client.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Project {
   private List<String> automationTools = new ArrayList<String>();

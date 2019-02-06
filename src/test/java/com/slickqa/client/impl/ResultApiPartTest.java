@@ -17,7 +17,6 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;

@@ -8,12 +8,12 @@ import org.junit.runners.Parameterized;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static org.junit.Assert.*;
 import static com.google.code.beanmatchers.BeanMatchers.*;
 import static com.google.common.reflect.ClassPath.ClassInfo;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.junit.runners.Parameterized.Parameters;
+import static org.junit.Assert.assertThat;
 import static org.junit.runners.Parameterized.Parameter;
+import static org.junit.runners.Parameterized.Parameters;
 
 /**
  * Tests to make sure that the models are valid, working java beans.

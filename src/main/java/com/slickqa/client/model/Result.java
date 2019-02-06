@@ -1,6 +1,9 @@
 package com.slickqa.client.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class Result {
   private List<StoredFile> files = new ArrayList<StoredFile>();
