@@ -22,7 +22,6 @@ pipeline {
         }
         stage('Test') { 
             steps {
-                unstash('target')
                 sh 'mvn test' 
             }
             post {
