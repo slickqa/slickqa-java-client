@@ -31,3 +31,10 @@ if (projects != null) {
     System.out.println("Nothing to see here, move along.");
 } 
 ```
+
+Development
+-----------
+The version should always end in `-SNAPSHOT`.  The build system changes the `-SNAPSHOT` to the current
+build number (assigned by jenkins at build time).  For build information see 
+https://build.slickqa.com/blue/organizations/jenkins/slickqa-java-client/activity
+
