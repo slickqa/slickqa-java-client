@@ -1,12 +1,12 @@
 package com.slickqa.client.errors;
 
-import mockit.Injectable;
-import mockit.NonStrictExpectations;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 
 import javax.ws.rs.core.Response;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by jcorbett on 4/16/14.

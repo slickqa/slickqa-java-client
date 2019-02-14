@@ -1,6 +1,7 @@
 package com.slickqa.client.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Component {
   private String code = null;

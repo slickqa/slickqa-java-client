@@ -4,17 +4,13 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.slickqa.client.SlickClient;
 import com.slickqa.client.apiparts.FilesApi;
-import com.slickqa.client.apiparts.FilesQueryApi;
-import com.slickqa.client.errors.SlickCommunicationError;
 import com.slickqa.client.errors.SlickError;
-import com.slickqa.client.model.LogEntry;
 import com.slickqa.client.model.StoredFile;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.NonStrictExpectations;
 import mockit.Tested;
 import mockit.integration.junit4.JMockit;
-import org.apache.tika.Tika;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,9 +20,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,8 +27,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.truth0.Truth.ASSERT;
-import static org.truth0.Truth.ASSUME;
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * Tests for ResultApiPart
@@ -152,13 +144,13 @@ public class FilesApiPartTest {
         }};
 
         StoredFile retval = filesApiPart.createAndUpload(fileToUpload);
-        ASSERT.that(retval).named("createAndUpload return value").isNotNull();
-        ASSERT.that(retval).isSameAs(expectedResult);
-        ASSERT.that(created).isNotEmpty();
-        ASSERT.that(created).hasSize(1);
-        ASSERT.that(created.get(0).getFilename()).named("getFilename()").comparesEqualTo(fileToUpload.getFileName().toString());
-        ASSERT.that(created.get(0).getMimetype()).named("getMimetype()").comparesEqualTo("text/plain");
-        ASSERT.that(created.get(0).getUploadDate()).named("getUploadDate()").isNotNull();
+        assertThat(retval).named("createAndUpload return value").isNotNull();
+        assertThat(retval).isSameAs(expectedResult);
+        assertThat(created).isNotEmpty();
+        assertThat(created).hasSize(1);
+        assertThat(created.get(0).getFilename()).named("getFilename()").comparesEqualTo(fileToUpload.getFileName().toString());
+        assertThat(created.get(0).getMimetype()).named("getMimetype()").comparesEqualTo("text/plain");
+        assertThat(created.get(0).getUploadDate()).named("getUploadDate()").isNotNull();
     }
 
 

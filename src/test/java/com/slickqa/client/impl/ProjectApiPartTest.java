@@ -1,6 +1,5 @@
 package com.slickqa.client.impl;
 
-import com.slickqa.client.errors.SlickError;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Tested;

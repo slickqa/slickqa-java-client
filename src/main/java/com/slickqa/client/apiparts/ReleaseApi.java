@@ -10,6 +10,7 @@ import com.slickqa.client.model.Release;
 public interface ReleaseApi extends RetrieveUpdateDeleteApi<Release> {
     /**
      * Query for all the builds belonging to this release, no filtering.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Build> builds();
 
@@ -17,6 +18,7 @@ public interface ReleaseApi extends RetrieveUpdateDeleteApi<Release> {
      * Use a specific release.
      *
      * @param idOrName The id or name of the build
+     * @return RetrieveUpdateDeleteApi
      */
     public RetrieveUpdateDeleteApi<Build> build(String idOrName);
 }

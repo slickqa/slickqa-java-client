@@ -22,6 +22,7 @@ public interface RetrieveUpdateDeleteApi<T> {
      * Update an object.
      * @return The updated object as returned by slick.
      * @throws SlickError if the slick server returns an error.
+     * @param update Update object
      */
     public T update(T update) throws SlickError;
 

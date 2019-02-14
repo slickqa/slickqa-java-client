@@ -3,9 +3,9 @@ package com.slickqa.client;
 import com.slickqa.client.impl.SlickClientImpl;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
 
 /**
  * Tests for SlickClientFactory

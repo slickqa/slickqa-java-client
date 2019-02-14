@@ -1,32 +1,30 @@
 package com.slickqa.client.impl;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonLocation;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.slickqa.client.SlickClient;
 import com.slickqa.client.errors.SlickCommunicationError;
 import com.slickqa.client.errors.SlickError;
-import mockit.*;
+import mockit.Expectations;
+import mockit.Injectable;
+import mockit.NonStrictExpectations;
 import mockit.integration.junit4.JMockit;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.swing.text.html.parser.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
 /**
  * Tests for com.slickqa.client.impl.ApiPart

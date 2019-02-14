@@ -49,18 +49,21 @@ public interface SlickClient
 
     /**
      * No filtering, retrieve all projects.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Project> projects();
 
     /**
      * Filter based on properties of a project.  Dotted sub properties are allowed.
      * @param properties A map of properties and their values to filter the projects by.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Project> projects(Map<String, String> properties);
 
     /**
      * Filter the results based of a standard slick query.
      * @param query The query to perform, using slick's generic query language.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Project> projects(String query);
 
@@ -69,6 +72,7 @@ public interface SlickClient
      *
      * @param query The query to perform, using slick's generic query language.
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Project> projects(String query, String orderBy);
 
@@ -80,6 +84,7 @@ public interface SlickClient
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
      * @param limit The maximum number of results to return, or null for no limit.
      * @param skip The number of results to skip (maintaining order), or null for no skip.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Project> projects(String query, String orderBy, Integer limit, Integer skip);
 
@@ -87,23 +92,27 @@ public interface SlickClient
      * Perform operations against a specific project.  You only need to enter the ID (or name) here.
      *
      * @param idOrName The id (string representation of the BSON Object Id) or the name of the project.
+     * @return ProjectApi
      */
     public ProjectApi project(String idOrName);
 
     /**
      * No filtering, retrieve all configurations.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Configuration> configurations();
 
     /**
      * Filter based on properties of a configuration.  Dotted sub properties are allowed.
      * @param properties A map of properties and their values to filter the configurations by.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Configuration> configurations(Map<String, String> properties);
 
     /**
      * Filter the results based of a standard slick query.
      * @param query The query to perform, using slick's generic query language.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Configuration> configurations(String query);
 
@@ -112,6 +121,7 @@ public interface SlickClient
      *
      * @param query The query to perform, using slick's generic query language.
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Configuration> configurations(String query, String orderBy);
 
@@ -124,6 +134,7 @@ public interface SlickClient
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
      * @param limit The maximum number of results to return, or null for no limit.
      * @param skip The number of results to skip (maintaining order), or null for no skip.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Configuration> configurations(String query, String orderBy, Integer limit, Integer skip);
 
@@ -131,23 +142,27 @@ public interface SlickClient
      * Perform operations against a specific configuration.  You only need to enter the ID (or name) here.
      *
      * @param idOrName The id (string representation of the BSON Object Id) or the name of the configuration.
+     * @return RetrieveUpdateDeleteApi
      */
     public RetrieveUpdateDeleteApi<Configuration> configuration(String idOrName);
 
     /**
      * No filtering, retrieve all results.
+     * @return ResultQueryApi
      */
     public ResultQueryApi results();
 
     /**
      * Filter based on properties of a result.  Dotted sub properties are allowed.
      * @param properties A map of properties and their values to filter the results by.
+     * @return ResultQueryApi
      */
     public ResultQueryApi results(Map<String, String> properties);
 
     /**
      * Filter the results based of a standard slick query.
      * @param query The query to perform, using slick's generic query language.
+     * @return ResultQueryApi
      */
     public ResultQueryApi results(String query);
 
@@ -156,6 +171,7 @@ public interface SlickClient
      *
      * @param query The query to perform, using slick's generic query language.
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
+     * @return ResultQueryApi
      */
     public ResultQueryApi results(String query, String orderBy);
 
@@ -168,6 +184,7 @@ public interface SlickClient
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
      * @param limit The maximum number of results to return, or null for no limit.
      * @param skip The number of results to skip (maintaining order), or null for no skip.
+     * @return ResultQueryApi
      */
     public ResultQueryApi results(String query, String orderBy, Integer limit, Integer skip);
 
@@ -175,23 +192,27 @@ public interface SlickClient
      * Perform operations against a specific result.  You only need to enter the ID (or name) here.
      *
      * @param idOrName The id (string representation of the BSON Object Id) or the name of the result.
+     * @return ResultApi
      */
     public ResultApi result(String idOrName);
 
     /**
      * No filtering, retrieve all testplans.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<TestPlan> testplans();
 
     /**
      * Filter based on properties of a testplan.  Dotted sub properties are allowed.
      * @param properties A map of properties and their values to filter the testplans by.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<TestPlan> testplans(Map<String, String> properties);
 
     /**
      * Filter the results based of a standard slick query.
      * @param query The query to perform, using slick's generic query language.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<TestPlan> testplans(String query);
 
@@ -200,6 +221,7 @@ public interface SlickClient
      *
      * @param query The query to perform, using slick's generic query language.
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<TestPlan> testplans(String query, String orderBy);
 
@@ -212,6 +234,7 @@ public interface SlickClient
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
      * @param limit The maximum number of results to return, or null for no limit.
      * @param skip The number of results to skip (maintaining order), or null for no skip.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<TestPlan> testplans(String query, String orderBy, Integer limit, Integer skip);
 
@@ -219,23 +242,27 @@ public interface SlickClient
      * Perform operations against a specific testplan.  You only need to enter the ID (or name) here.
      *
      * @param idOrName The id (string representation of the BSON Object Id) or the name of the testplan.
+     * @return RetrieveUpdateDeleteApi
      */
     public RetrieveUpdateDeleteApi<TestPlan> testplan(String idOrName);
 
     /**
      * No filtering, retrieve all testcases.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Testcase> testcases();
 
     /**
      * Filter based on properties of a testcase.  Dotted sub properties are allowed.
      * @param properties A map of properties and their values to filter the testcases by.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Testcase> testcases(Map<String, String> properties);
 
     /**
      * Filter the results based of a standard slick query.
      * @param query The query to perform, using slick's generic query language.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Testcase> testcases(String query);
 
@@ -244,6 +271,7 @@ public interface SlickClient
      *
      * @param query The query to perform, using slick's generic query language.
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Testcase> testcases(String query, String orderBy);
 
@@ -256,6 +284,7 @@ public interface SlickClient
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
      * @param limit The maximum number of results to return, or null for no limit.
      * @param skip The number of results to skip (maintaining order), or null for no skip.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Testcase> testcases(String query, String orderBy, Integer limit, Integer skip);
 
@@ -263,6 +292,7 @@ public interface SlickClient
      * Perform operations against a specific testcase.  You only need to enter the ID (or name) here.
      *
      * @param idOrName The id (string representation of the BSON Object Id) or the name of the testcase.
+     * @return RetrieveUpdateDeleteApi
      */
     public RetrieveUpdateDeleteApi<Testcase> testcase(String idOrName);
 
@@ -284,18 +314,21 @@ public interface SlickClient
 
     /**
      * No filtering, retrieve all testruns.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Testrun> testruns();
 
     /**
      * Filter based on properties of a testrun.  Dotted sub properties are allowed.
      * @param properties A map of properties and their values to filter the testruns by.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Testrun> testruns(Map<String, String> properties);
 
     /**
      * Filter the results based of a standard slick query.
      * @param query The query to perform, using slick's generic query language.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Testrun> testruns(String query);
 
@@ -304,6 +337,7 @@ public interface SlickClient
      *
      * @param query The query to perform, using slick's generic query language.
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Testrun> testruns(String query, String orderBy);
 
@@ -316,6 +350,7 @@ public interface SlickClient
      * @param orderBy The name of the property to order the results by.  Prefix with a '-' for descending order.
      * @param limit The maximum number of results to return, or null for no limit.
      * @param skip The number of results to skip (maintaining order), or null for no skip.
+     * @return QueryAndCreateApi
      */
     public QueryAndCreateApi<Testrun> testruns(String query, String orderBy, Integer limit, Integer skip);
 
@@ -323,6 +358,7 @@ public interface SlickClient
      * Perform operations against a specific testrun.  You only need to enter the ID (or name) here.
      *
      * @param idOrName The id (string representation of the BSON Object Id) or the name of the testrun.
+     * @return RetrieveUpdateDeleteApi
      */
     public RetrieveUpdateDeleteApi<Testrun> testrun(String idOrName);
 }

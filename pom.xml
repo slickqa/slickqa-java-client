@@ -5,7 +5,7 @@
   <artifactId>slickqa-java-client</artifactId>
   <packaging>jar</packaging>
   <name>slickqa-java-client</name>
-  <version>1.0.2-3</version>
+  <version>1.0.3-0</version>
   <description>Java client api for the slick test management tool.</description>
   <url>http://github.com/slickqa/slickqa-java-client</url>
   <issueManagement>
@@ -61,7 +61,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.5</version>
+        <version>1.6</version>
         <executions>
           <execution>
             <id>sign-artifacts</id>
@@ -81,16 +81,16 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.8.0</version>
           <configuration>
-            <source>1.7</source>
-            <target>1.7</target>
+            <source>1.8</source>
+            <target>1.8</target>
           </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.2.1</version>
+        <version>3.0.1</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -103,9 +103,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9.1</version>
+        <version>3.0.1</version>
           <configuration>
-            <additionalparam>--allow-script-in-comments</additionalparam>
+            <additionalOptions>--allow-script-in-comments</additionalOptions>
             <!-- (1) CSS file location -->
             <stylesheetfile>src/main/javadoc/syntax-highlighter.css</stylesheetfile>
 
@@ -139,7 +139,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.17</version>
+          <version>3.0.0-M3</version>
           <configuration>
             <argLine>-XX:-UseSplitVerifier</argLine>
           </configuration>
@@ -172,12 +172,12 @@
     <dependency>
       <groupId>org.apache.tika</groupId>
       <artifactId>tika-core</artifactId>
-      <version>1.6</version>
+      <version>1.20</version>
     </dependency>
 
     <!-- test dependencies -->
     <dependency>
-      <groupId>com.googlecode.jmockit</groupId>
+      <groupId>org.jmockit</groupId>
       <artifactId>jmockit</artifactId>
       <version>${jmockit-version}</version>
       <scope>test</scope>
@@ -191,29 +191,29 @@
     <dependency>
       <groupId>com.google.code.bean-matchers</groupId>
       <artifactId>bean-matchers</artifactId>
-      <version>0.9</version>
+      <version>0.11</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>17.0</version>
+      <version>27.0.1-jre</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
-      <version>0.25</version>
+      <version>0.42</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jersey-version>2.22.2</jersey-version>
-    <jackson-version>2.7.2</jackson-version>
-    <junit-version>4.11</junit-version>
-    <jmockit-version>1.6</jmockit-version>
+    <jersey-version>2.28</jersey-version>
+    <jackson-version>2.9.8</jackson-version>
+    <junit-version>4.12</junit-version>
+    <jmockit-version>1.12</jmockit-version>
   </properties>
 </project>
 
