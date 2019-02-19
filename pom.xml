@@ -144,6 +144,16 @@
             <argLine>-XX:-UseSplitVerifier</argLine>
           </configuration>
         </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.8</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>SonatypeReleases</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -152,6 +162,11 @@
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-client</artifactId>
+      <version>${jersey-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
       <version>${jersey-version}</version>
     </dependency>
     <dependency>
