@@ -20,7 +20,7 @@ pipeline {
                     mvn -q -DforceStdout help:evaluate -Dexpression='settings.localRepository' && echo
                 '''
                 sh '''
-                    export MAVEN_OPTS="-Dmaven.repo.local=/.m2/repository --settings /.m2/settings.xml"
+                    export MAVEN_OPTS="-Dmaven.repo.local=/.m2/repository -Duser.home=/"
                     mvn -B -DskipTests clean package
                 '''
             }
@@ -28,7 +28,7 @@ pipeline {
         stage('Test') { 
             steps {
                 sh '''
-                    export MAVEN_OPTS="-Dmaven.repo.local=/.m2/repository --settings /.m2/settings.xml"
+                    export MAVEN_OPTS="-Dmaven.repo.local=/.m2/repository -Duser.home=/"
                     mvn -Dmaven.repo.local=/.m2/repository test
                 ''' 
             }
