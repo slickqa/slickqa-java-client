@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.6-jdk-8'
-            args '-v /data/docker/maven:/.m2 -e MAVEN_OPTS="-Dmaven.repo.local=/.m2/repository -Duser.home=/"'
+            args '-v /data/jenkins/.gnupg:/.gnupg -v /data/docker/maven:/.m2 -e MAVEN_OPTS="-Dmaven.repo.local=/.m2/repository -Duser.home=/"'
         }
     }
     stages {
