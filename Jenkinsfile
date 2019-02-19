@@ -9,7 +9,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                    export MAVEN_OPTS="-Dmaven.repo.local=/.m2/repository --settings /.m2/settings.xml"
+                    export MAVEN_OPTS="-Dmaven.repo.local=/.m2/repository -Duser.home=/"
                     POM_BUILD_NUMBER=${BUILD_NUMBER}
                     if [ "$BRANCH_NAME" != "master" ]; then POM_BUILD_NUMBER="${BRANCH_NAME}-${BUILD_NUMBER}"; fi
 
