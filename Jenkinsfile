@@ -16,7 +16,7 @@ pipeline {
                     NEW_VERSION=$(echo ${ORIGINAL_VERSION} | sed -e "s/SNAPSHOT/${POM_BUILD_NUMBER}/")
 
                     mvn -B versions:set -DnewVersion=${NEW_VERSION}
-                    echo $HOME
+                    mvn -q -DforceStdout help:evaluate -Dexpression='settings.localRepository' && echo
                 '''
                 sh 'mvn -B -DskipTests clean package'
             }
