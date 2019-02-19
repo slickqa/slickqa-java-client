@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.6-jdk-8'
-            args '-v /root/.m2:/root/.m2'
+            args '-v /data/docker/maven:/.m2'
         }
     }
     stages {
@@ -16,6 +16,7 @@ pipeline {
                     NEW_VERSION=$(echo ${ORIGINAL_VERSION} | sed -e "s/SNAPSHOT/${POM_BUILD_NUMBER}/")
 
                     mvn -B versions:set -DnewVersion=${NEW_VERSION}
+                    id
                 '''
                 sh 'mvn -B -DskipTests clean package'
             }
