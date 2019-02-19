@@ -5,7 +5,7 @@
   <artifactId>slickqa-java-client</artifactId>
   <packaging>jar</packaging>
   <name>slickqa-java-client</name>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3-0</version>
   <description>Java client api for the slick test management tool.</description>
   <url>http://github.com/slickqa/slickqa-java-client</url>
   <issueManagement>
@@ -144,6 +144,16 @@
             <argLine>-XX:-UseSplitVerifier</argLine>
           </configuration>
         </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.8</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>SonatypeReleases</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
