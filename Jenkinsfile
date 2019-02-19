@@ -15,7 +15,7 @@ pipeline {
                     ORIGINAL_VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression='project.version')
                     NEW_VERSION=$(echo ${ORIGINAL_VERSION} | sed -e "s/SNAPSHOT/${POM_BUILD_NUMBER}/")
 
-                    mvn -Dmaven.repo.local=/.m2/repository -B versions:set -DnewVersion=${NEW_VERSION}
+                    mvn -B versions:set -DnewVersion=${NEW_VERSION}
                     mvn -q -DforceStdout help:evaluate -Dexpression='settings.localRepository' && echo
                 '''
                 sh 'mvn -B -DskipTests clean package'
@@ -23,12 +23,20 @@ pipeline {
         }
         stage('Test') { 
             steps {
-                sh 'mvn -Dmaven.repo.local=/.m2/repository test'
+                sh 'mvn test'
             }
             post {
                 always {
                     junit 'target/surefire-reports/*.xml' 
                 }
+            }
+        }
+        stage('Deploy') {
+            when {
+                branch 'master'
+            }
+            steps {
+                sh 'mvn -DskipTests clean install deploy -DautoReleaseAfterClose=true'
             }
         }
     }
