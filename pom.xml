@@ -5,7 +5,7 @@
   <artifactId>slickqa-java-client</artifactId>
   <packaging>jar</packaging>
   <name>slickqa-java-client</name>
-  <version>1.0.3-0</version>
+  <version>1.0.3-SNAPSHOT</version>
   <description>Java client api for the slick test management tool.</description>
   <url>http://github.com/slickqa/slickqa-java-client</url>
   <issueManagement>
