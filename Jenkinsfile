@@ -16,7 +16,7 @@ pipeline {
                     NEW_VERSION=$(echo ${ORIGINAL_VERSION} | sed -e "s/SNAPSHOT/${POM_BUILD_NUMBER}/")
 
                     mvn -B versions:set -DnewVersion=${NEW_VERSION}
-                    id
+                    echo $HOME
                 '''
                 sh 'mvn -B -DskipTests clean package'
             }
