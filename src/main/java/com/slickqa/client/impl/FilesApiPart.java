@@ -108,6 +108,12 @@ public class FilesApiPart extends ApiPart<StoredFile> implements FilesQueryApi, 
                     lastException = e;
                 }
             }
+            try {
+                if(i < 2) {
+                    Thread.sleep((i + 1) * 1000);
+                }
+            } catch(Exception e) {
+            }
         }
         if(lastException != null)
             throw new SlickCommunicationError(target.getUri().toString(), lastResponse, lastException);
