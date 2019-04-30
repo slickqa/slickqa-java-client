@@ -73,6 +73,12 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
                     return null;
                 }
             }
+            try {
+                if(i < 2) {
+                    Thread.sleep((i + 1) * 1000);
+                }
+            } catch(Exception e) {
+            }
         }
         if(lastException != null)
             throw new SlickCommunicationError(target.getUri().toString(), lastResponse, lastException);
@@ -110,6 +116,12 @@ public class ApiPart<T> implements RetrieveUpdateDeleteApi<T>, QueryAndCreateApi
                 } else {
                     return null;
                 }
+            }
+            try {
+                if(i < 2) {
+                    Thread.sleep((i + 1) * 1000);
+                }
+            } catch(Exception e) {
             }
         }
         if(lastException != null)
